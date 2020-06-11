@@ -1,0 +1,49 @@
+<%- include("Partials/header")%>
+    <div class="container">
+        <div class="container d-flex flex-column">
+            <div>
+                <h1>Edit Profile</h1>
+            </div>
+            <div>
+                <form action="/profile/<%=currentUser._id%>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <div class="col-md-3 img-c d-flex flex-column align-items-center justify-content-center">
+                        <div>
+                            <img class="profileImage w-50" src="/<%=currentUser.image%>" alt="">
+                        </div>
+                        <div>
+                            <i style="margin: -10px;" class="fas fa-camera "><input type="file" name="image"></i>
+                            <input type="submit">
+                        </div>
+                    </div>
+                    <!-- username -->
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Username</label>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                    </div>
+                    <!-- firstname -->
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">First Name</label>
+                        <input type="text" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <!-- lastname -->
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Last Name</label>
+                        <input type="text" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <!-- bio -->
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Bio</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include("Partials/footer")%>

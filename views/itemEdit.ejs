@@ -1,0 +1,133 @@
+<%-include("Partials/header")%>
+    <form action="/market/<%=item._id%>/edit?_method=PUT" method="POST" enctype="multipart/form-data">
+        <div class="container">
+            <!--Main layout-->
+            <main class="mt-5 pt-4">
+                <div class="container dark-grey-text mt-5">
+
+                    <!--Grid row-->
+                    <div class="row wow fadeIn">
+
+                        <!--Grid column-->
+                        <div class="col-md-6 mb-4">
+
+                            <img src="/<%=item.images.image1%>" class="img-fluid" alt="">
+                            <div class="custom-file">
+                                <!-- <input name="image1" type="file" class="custom-file-input" id="customFile"> -->
+                                <label class="custom-file-label" for="customFile">Choose Item Image</label>
+                            </div>
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div class="col-md-6 mb-4">
+
+                            <!--Content-->
+                            <div class="p-4">
+
+                                <div class="mb-3">
+                                    <a href="">
+                                        <span class="badge purple mr-1"><%=item.category%></span>
+                                    </a>
+                                    <a href="">
+                                        <span class="badge blue mr-1">New</span>
+                                    </a>
+                                    <a href="">
+                                        <span class="badge red mr-1">Bestseller</span>
+                                    </a>
+                                </div>
+                                <!-- product Name -->
+                                <p class="lead font-weight-bold">Name</p>
+                                <input name="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=item.name%>">
+                                <!-- lores Points -->
+                                <p class="lead font-weight-bold">Points</p>
+                                <input name="points" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<%=item.points%>">
+
+                                <p class="lead font-weight-bold">Description</p>
+
+                                <div class="form-group">
+                                    <textarea name="desc" class="form-control" id="exampleFormControlTextarea1" rows="3"><%=item.desc%></textarea>
+                                </div>
+                                <div class="d-flex justify-content-left">
+                                    <!-- Default input -->
+                                    <select name="category" class="form-control w-50 mr-2">
+                                        <option>art</option>
+                                        <option>code</option>
+                                      </select>
+                                    <button class="btn btn-primary btn-md my-0 p" type="submit">Publish</button>
+
+                                </div>
+
+                            </div>
+                            <!--Content-->
+
+                        </div>
+                        <!--Grid column-->
+
+                    </div>
+                    <!--Grid row-->
+
+                    <hr>
+
+                    <!--Grid row-->
+                    <div class="row d-flex justify-content-center wow fadeIn">
+
+                        <!--Grid column-->
+                        <div class="col-md-10 text-center">
+
+                            <h4 class="my-4 h4">Additional information</h4>
+
+                            <div class="form-group">
+                                <textarea name="addesc" class="form-control" id="exampleFormControlTextarea1" rows="3"><%= item.addesc%></textarea>
+                            </div>
+                        </div>
+                        <!--Grid column-->
+
+                    </div>
+                    <!--Grid row-->
+
+                    <!--Grid row-->
+                    <div class="row wow fadeIn">
+
+                        <!--Grid column-->
+                        <div class="col-lg-4 col-md-12 mb-4">
+
+                            <img src="/<%=item.images.image2%>" class="img-fluid" alt="">
+                            <div class="custom-file">
+                                <!-- <input name="image2" type="file" class="custom-file-input" id="customFile"> -->
+                                <label class="custom-file-label" for="customFile">Choose Additional Item Image</label>
+                            </div>
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div class="col-lg-4 col-md-6 mb-4">
+
+                            <img src="/<%=item.images.image3%>" class="img-fluid" alt="">
+                            <div class="custom-file">
+                                <!-- <input name="image3" type="file" class="custom-file-input" id="customFile"> -->
+                                <label class="custom-file-label" for="customFile">Choose Additional Item Image</label>
+                            </div>
+                        </div>
+                        <!--Grid column-->
+
+                        <!--Grid column-->
+                        <div class="col-lg-4 col-md-6 mb-4">
+
+                            <img src="/<%=item.images.image4%>" class="img-fluid" alt="">
+                            <div class="custom-file">
+                                <!-- <input name="image4" type="file" class="custom-file-input" id="customFile"> -->
+                                <label class="custom-file-label" for="customFile">Choose Additional Item Image</label>
+                            </div>
+                        </div>
+                        <!--Grid column-->
+
+                    </div>
+                    <!--Grid row-->
+
+                </div>
+            </main>
+            <!--Main layout-->
+        </div>
+    </form>
+    <%- include("Partials/footer")%>

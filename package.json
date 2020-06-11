@@ -1,0 +1,71 @@
+{
+    "title": "lores.in",
+    "name": "lores.in",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app"
+    },
+    "description": "An open source Bootstrap 4 admin theme.",
+    "keywords": [
+        "css",
+        "sass",
+        "html",
+        "responsive",
+        "theme",
+        "template",
+        "admin",
+        "app"
+    ],
+    "homepage": "",
+    "bugs": {
+        "url": "https://github.com/BlackrockDigital/startbootstrap-sb-admin-2/issues",
+        "email": "doonwebdesigners@gmail.com"
+    },
+    "license": "MIT",
+    "author": "Lores",
+    "contributors": [
+        "Akhi Bisht (http://akhilbisht.lores.in/)"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Akhilbisht12/lores.git"
+    },
+    "dependencies": {
+        "@fortawesome/fontawesome-free": "5.12.0",
+        "body-parser": "^1.19.0",
+        "bootstrap": "4.4.1",
+        "build": "^0.1.4",
+        "chart.js": "2.9.3",
+        "datatables.net-bs4": "1.10.20",
+        "ejs": "^3.1.3",
+        "express": "^4.17.1",
+        "express-sanitizer": "^1.0.5",
+        "express-session": "^1.17.1",
+        "jquery": "^3.5.1",
+        "jquery.easing": "^1.4.1",
+        "method-override": "^3.0.0",
+        "mongoose": "^5.9.14",
+        "multer": "^1.4.2",
+        "passport": "^0.4.1",
+        "passport-local": "^1.0.0",
+        "passport-local-mongoose": "^6.0.1",
+        "serve": "^11.3.1",
+        "socket.io": "^2.3.0"
+    },
+    "devDependencies": {
+        "browser-sync": "2.26.7",
+        "del": "5.1.0",
+        "gulp": "4.0.2",
+        "gulp-autoprefixer": "7.0.1",
+        "gulp-clean-css": "4.2.0",
+        "gulp-header": "2.0.9",
+        "gulp-plumber": "^1.2.1",
+        "gulp-rename": "2.0.0",
+        "gulp-sass": "4.0.2",
+        "gulp-uglify": "3.0.2",
+        "merge-stream": "2.0.0",
+        "nodemon": "^2.0.4"
+    },
+    "main": "app.js"
+}

@@ -1,0 +1,100 @@
+<%- include("Partials/header") %>
+    <div class="col-md-6 gedf-main">
+        <div class="card gedf-card my-3">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="mr-2">
+                            <img class="rounded-circle" width="45" src="<%= post.author.image%>" alt="">
+                        </div>
+                        <div class="ml-2">
+                            <div class="h5 m-0">
+                                <%= post.author.username %>
+                            </div>
+                            <div class="h7 text-muted">Miracles Lee Cross</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="dropdown">
+                            <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-ellipsis-h"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                                <div class="h6 dropdown-header">Configuration</div>
+                                <a class="dropdown-item" href="/feed/<%=post._id%>/edit">Edit</a>
+                                <a class="dropdown-item" href="#">Hide</a>
+                                <a class="dropdown-item" href="#">Report</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>10 min ago</div>
+                <a class="card-link" href="#">
+                    <h5 class="card-title">Lorem ipsum dolor sit amet, consectetur adip.</h5>
+                </a>
+
+                <p class="card-text">
+                    <%=post.feedText %>
+                        <img class="w-100" src="/<%= post.feedImage %>">
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
+                <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+                <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
+            </div>
+
+            <!-- Comments Input Section -->
+            <form method="POST" action="/feed/<%=post._id%>">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mr-2">
+                                <img class="rounded-circle" width="45" src="<%= currentUser.image %>" alt="">
+                            </div>
+                            <div class="ml-2">
+                                <div class="h5 m-0">
+                                    <%= currentUser.username %>
+                                </div>
+                                <div class="h7 text-muted">
+                                    <div class="input-group mb-3">
+                                        <input name="postComment" type="text" class="form-control" placeholder="Add a Comment" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text" id="basic-addon2">
+                                               <a type="submit"><i class="fas fa-paper-plane"></i></a>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- comments reading section -->
+            <% post.comments.forEach(function(comment){%>
+                <div class="card-header">
+                    <div class="d-flex justify-content-start align-items-center">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="mr-2">
+                                <img class="rounded-circle" width="45" src="<%= comment.author.image %>" alt="">
+                            </div>
+                            <div class="ml-2">
+                                <div class="h5 m-0">
+                                    <%=comment.author.username%>
+                                </div>
+                                <div class="h7 text-muted">
+                                    <%=comment.text%>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <%  });%>
+        </div>
+    </div>
+
+    <%- include("Partials/footer") %>

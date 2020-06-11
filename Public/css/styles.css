@@ -1,0 +1,16 @@
+.imgContainer img {
+    height: 12rem;
+    width: 100%;
+}
+
+
+/* profile css */
+
+.profileImage {
+    width: 15rem;
+    border-radius: 50%;
+}
+
+.itemImage {
+    height: 17rem;
+}
