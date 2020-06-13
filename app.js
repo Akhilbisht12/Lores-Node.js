@@ -137,8 +137,19 @@ function isLoggedIn(req, res, next) {
 io.on('connection', socket => {
     socket.on('joinRoom', ({ username, room }) => {
         const user = userJoin(socket.id, username, room);
+        if (username) {
+            const roomCheck = user.room;
+            console.log(roomCheck)
+            const temp = roomCheck.split('!@!@2@!@!').reverse().join('!@!@2@!@!');
+            console.log(temp)
+            if (io.sockets.adapter.rooms[temp]) {
+                user.room = temp;
+                socket.join(user.room);
+            } else {
+                socket.join(user.room);
+            }
+        }
 
-        socket.join(user.room);
 
         // Welcome current user
         socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
