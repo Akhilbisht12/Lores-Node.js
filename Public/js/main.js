@@ -2,16 +2,22 @@ const chatForm = document.getElementById('chat-form');
 const chatMessages = document.querySelector('.chat-messages');
 const roomName = document.getElementById('room-name');
 const userList = document.getElementById('users');
+const chatButton = document.getElementById('chat_message');
 
 // Get username and room from URL
-const { username, room } = Qs.parse(location.search, {
+const { userin, userto } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
 });
 
 const socket = io();
 
-// Join chatroom
-socket.emit('joinRoom', { username, room });
+chatButton.addEventListener('click', () => {
+    console.log('cllicked')
+        // Join chatroom
+    socket.emit('joinRoom', { userin, userto });
+})
+
+
 
 // Get room and users
 socket.on('roomUsers', ({ room, users }) => {

@@ -9,9 +9,9 @@
                             <img class="profileImage" src="/<%=user.image%>" alt="">
                             <div class="container d-flex justify-content-center">
                                 <form action="/chat">
-                                    <input name="username" class="d-none" type="text" value="<%= currentUser.username%>">
-                                    <input name="room" class="d-none" type="text" value="<%= user.id%>!@!@2@!@!<%=currentUser._id%>">
-                                    <button type="submit" class="btn btn-info btn-xs mr-1">Message</button>
+                                    <input name="userin" class="d-none" type="text" value="<%= currentUser._id%>">
+                                    <input name="userto" class="d-none" type="text" value="<%= user._id%>">
+                                    <button id="chat_message" type="submit" class="btn btn-info btn-xs mr-1">Message</button>
                                 </form>
                                 <a href="/profile/<%=user._id%>/edit"><button class="btn btn-warning btn-xs">Edit</button></a>
                             </div>
@@ -347,4 +347,7 @@
         </div>
     </div>
 
-    <%- include("Partials/footer") %>
+
+    </body>
+
+    </html>

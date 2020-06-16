@@ -44,8 +44,8 @@ const botName = 'ChatCord Bot';
 
 // Connection Database
 
-// mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once("open", function() {
     console.log("Database connection Successful");
 })
@@ -135,13 +135,13 @@ function isLoggedIn(req, res, next) {
 
 // Run when client connects
 io.on('connection', socket => {
-    socket.on('joinRoom', ({ username, room }) => {
-        const user = userJoin(socket.id, username, room);
-        if (username) {
+    socket.on('joinRoom', ({ userin, userto }) => {
+        console.log(userin)
+        const user = userJoin(socket.id, userin, userto);
+        if (userin) {
             const roomCheck = user.room;
             console.log(roomCheck)
             const temp = roomCheck.split('!@!@2@!@!').reverse().join('!@!@2@!@!');
-            console.log(temp)
             if (io.sockets.adapter.rooms[temp]) {
                 user.room = temp;
                 socket.join(user.room);
@@ -173,7 +173,7 @@ io.on('connection', socket => {
     socket.on('chatMessage', msg => {
         const user = getCurrentUser(socket.id);
 
-        io.to(user.room).emit('message', formatMessage(user.username, msg));
+        io.to(user.room).emit('message', formatMessage(user.username, msg, user.room));
     });
 
     // Runs when client disconnects
