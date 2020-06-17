@@ -4,7 +4,10 @@ messagedb = require("../models/message");
 var username = String;
 
 function formatMessage(user, text) {
-    messagedb.findOne({ "room": user.room }, function(err, foundMsg) {
+    const temp = user.room.split('!@!@2@!@!').reverse().join('!@!@2@!@!');
+    // messagedb.findOne({ "room": user.room, "room": temp }, function(err, foundMsg) {
+    messagedb.findOne({ $or: [{ "room": user.room }, { "room": temp }] }, function(err, foundMsg) {
+
         if (err) {
             console.log(err);
         } else {
