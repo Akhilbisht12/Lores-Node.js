@@ -36,7 +36,9 @@ const io = socketio(server);
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-const botName = 'ChatCord Bot';
+const botName = {
+    username: 'Lores Bot'
+};
 
 
 // seeding Database
@@ -44,8 +46,8 @@ const botName = 'ChatCord Bot';
 
 // Connection Database
 
-// mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once("open", function() {
     console.log("Database connection Successful");
 })
@@ -139,9 +141,7 @@ io.on('connection', socket => {
         const user = userJoin(socket.id, username, room);
         if (username) {
             const roomCheck = user.room;
-            console.log(roomCheck)
             const temp = roomCheck.split('!@!@2@!@!').reverse().join('!@!@2@!@!');
-            console.log(temp)
             if (io.sockets.adapter.rooms[temp]) {
                 user.room = temp;
                 socket.join(user.room);
@@ -152,15 +152,15 @@ io.on('connection', socket => {
 
 
         // Welcome current user
-        socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
+        // socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
 
         // Broadcast when a user connects
-        socket.broadcast
-            .to(user.room)
-            .emit(
-                'message',
-                formatMessage(botName, `${user.username} has joined the chat`)
-            );
+        // socket.broadcast
+        //     .to(user.room)
+        //     .emit(
+        //         'message',
+        //         formatMessage(botName, `${user.username} has joined the chat`)
+        //     );
 
         // Send users and room info
         io.to(user.room).emit('roomUsers', {
@@ -173,7 +173,7 @@ io.on('connection', socket => {
     socket.on('chatMessage', msg => {
         const user = getCurrentUser(socket.id);
 
-        io.to(user.room).emit('message', formatMessage(user.username, msg));
+        io.to(user.room).emit('message', formatMessage(user, msg));
     });
 
     // Runs when client disconnects
@@ -181,10 +181,10 @@ io.on('connection', socket => {
         const user = userLeave(socket.id);
 
         if (user) {
-            io.to(user.room).emit(
-                'message',
-                formatMessage(botName, `${user.username} has left the chat`)
-            );
+            // io.to(user.room).emit(
+            //     'message',
+            //     formatMessage(botName, `${user.username} has left the chat`)
+            // );
 
             // Send users and room info
             io.to(user.room).emit('roomUsers', {
