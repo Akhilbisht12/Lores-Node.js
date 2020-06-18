@@ -26,6 +26,8 @@ const {
     // getmessage
 } = require('./utils/messages');
 
+const getmessage = require('./utils/oldmessage');
+
 const {
     userJoin,
     getCurrentUser,
@@ -153,10 +155,10 @@ io.on('connection', socket => {
             } else {
                 socket.join(user.room);
             }
-            // getting old messages
-            // socket.to(user.room).emit('getmessage', getmessage(user));
         }
 
+        // getting old messages
+        socket.emit('getmessage', getmessage(username, room));
 
         // Welcome current user
         // socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
