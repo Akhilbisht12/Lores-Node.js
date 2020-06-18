@@ -7,7 +7,6 @@ const userList = document.getElementById('users');
 const { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true
 });
-console.log("form main js" + username, room);
 const socket = io();
 
 // Join chatroom
@@ -27,6 +26,15 @@ socket.on('message', message => {
     // Scroll down
     chatMessages.scrollTop = chatMessages.scrollHeight;
 });
+
+socket.on('checkUser', isUser => {
+    console.log(isUser);
+})
+
+socket.on('getOldMessage', oldMsg => {
+    console.log(oldMsg);
+    outputOldMessages(oldMsg);
+})
 
 // Message submit
 chatForm.addEventListener('submit', e => {
@@ -64,4 +72,19 @@ function outputUsers(users) {
     userList.innerHTML = `
     ${users.map(user => `<li>${user.username}</li>`).join('')}
   `;
+}
+
+function outputOldMessages(oldMsg){
+    oldMsg.message.forEach(msg => {
+        const div = document.createElement('div');
+    div.classList.add('message');
+    div.innerHTML = `<p class="meta">${msg.sender.id} <span>time</span></p>
+  <p class="text">
+    ${msg.sender.msg}
+  </p>`;
+    document.querySelector('.chat-messages').appendChild(div);
+    
+});
+chatMessages.scrollTop = chatMessages.scrollHeight;
+
 }

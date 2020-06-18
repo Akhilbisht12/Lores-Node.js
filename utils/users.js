@@ -37,9 +37,23 @@ function getRoomUsers(room) {
     return users.filter(user => user.room === room);
 }
 
+function checkUser(userVar) {
+    users.filter(user => user.room === userVar.room);
+    const isUser = users.includes(userVar.user2);
+    return isUser;
+}
+
+function notifyUser(user) {
+    userdb.findById(user.user2, function(err, findUser) {
+
+    })
+}
+
 module.exports = {
     userJoin,
     getCurrentUser,
     userLeave,
-    getRoomUsers
+    getRoomUsers,
+    checkUser,
+    notifyUser
 };

@@ -21,13 +21,19 @@ marketRoutes = require("./routes/market");
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
-const formatMessage = require('./utils/messages');
+const {
+    formatMessage,
+    getOldMessage
+} = require('./utils/messages');
 const {
     userJoin,
     getCurrentUser,
     userLeave,
-    getRoomUsers
+    getRoomUsers,
+    checkUser,
+    notifyUser
 } = require('./utils/users');
+const user = require("./models/user")
 
 const app = express();
 const server = http.createServer(app);
@@ -135,6 +141,7 @@ function isLoggedIn(req, res, next) {
     }
 };
 
+
 // Run when client connects
 io.on('connection', socket => {
     socket.on('joinRoom', ({ username, room }) => {
@@ -145,11 +152,19 @@ io.on('connection', socket => {
             if (io.sockets.adapter.rooms[temp]) {
                 user.room = temp;
                 socket.join(user.room);
+                // console.log("from app .js " + getOldMessage(user));
+                getOldMessage(user).then(message => {
+                    io.to(user.room).emit('getOldMessage', message)
+
+                });
             } else {
                 socket.join(user.room);
+                getOldMessage(user).then(message => {
+                    io.to(user.room).emit('getOldMessage', message)
+
+                });
             }
         }
-
 
         // Welcome current user
         // socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
@@ -174,6 +189,11 @@ io.on('connection', socket => {
         const user = getCurrentUser(socket.id);
 
         io.to(user.room).emit('message', formatMessage(user, msg));
+        if (!checkUser(user)) {
+            notifyUser(user);
+            io.to(user.room).emit('checkUser', checkUser(user));
+        }
+
     });
 
     // Runs when client disconnects

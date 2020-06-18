@@ -1,5 +1,6 @@
 const moment = require('moment');
 const { urlencoded } = require('body-parser');
+const user = require('../models/user');
 messagedb = require("../models/message");
 var username = String;
 
@@ -54,4 +55,30 @@ function formatMessage(user, text) {
     };
 }
 
-module.exports = formatMessage;
+// function getOldMessage(user) {
+//     messagedb.findOne({ "room": user.room }, function(err, foundMsg) {
+//         if (err) {
+//             console.log(err)
+//         } else {
+//             print(foundMsg);
+//         }
+//     })
+
+//     var m = function print(object) {
+//         return (object);
+//     }
+//     return m;
+// }
+
+const getOldMessage = user => new Promise((resolve, reject) =>
+    messagedb.findOne({ "room": user.room }, (err, foundMsg) => {
+        if (err) return reject(err);
+        resolve(foundMsg);
+    })
+);
+
+
+module.exports = {
+    formatMessage,
+    getOldMessage
+};
