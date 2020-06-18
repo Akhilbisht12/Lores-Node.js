@@ -19,10 +19,6 @@ socket.on('roomUsers', ({ room, users }) => {
     outputUsers(users);
 });
 
-socket.on('getmessage', msg => {
-    outputOldMessage(msg);
-})
-
 // Message from server
 socket.on('message', message => {
     console.log(message);
@@ -56,21 +52,6 @@ function outputMessage(message) {
     ${message.text}
   </p>`;
     document.querySelector('.chat-messages').appendChild(div);
-}
-
-// output old message
-
-function outputOldMessage(msg) {
-    const div = document.createElement('div');
-    div.classList.add('message');
-    msg.message.forEach(msg => {
-        div.innerHTML = `<p class="meta">${msg.username} <span>time</span></p>
-  <p class="text">
-    ${msg.text}
-  </p>`;
-        document.querySelector('.chat-messages').appendChild(div);
-
-    });
 }
 
 // Add room name to DOM

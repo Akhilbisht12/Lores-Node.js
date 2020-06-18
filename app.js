@@ -21,20 +21,13 @@ marketRoutes = require("./routes/market");
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
-const {
-    formatMessage
-    // getmessage
-} = require('./utils/messages');
-
-const getmessage = require('./utils/oldmessage');
-
+const formatMessage = require('./utils/messages');
 const {
     userJoin,
     getCurrentUser,
     userLeave,
     getRoomUsers
 } = require('./utils/users');
-const user = require("./models/user")
 
 const app = express();
 const server = http.createServer(app);
@@ -157,8 +150,6 @@ io.on('connection', socket => {
             }
         }
 
-        // getting old messages
-        socket.emit('getmessage', getmessage(username, room));
 
         // Welcome current user
         // socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
@@ -202,10 +193,6 @@ io.on('connection', socket => {
             });
         }
     });
-
-
-
-
 });
 
 
