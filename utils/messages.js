@@ -70,12 +70,14 @@ function formatMessage(user, text) {
 //     return m;
 // }
 
-const getOldMessage = user => new Promise((resolve, reject) =>
-    messagedb.findOne({ "room": user.room }, (err, foundMsg) => {
+const getOldMessage = user => new Promise((resolve, reject) => {
+    const temp = user.room.split('!@!@2@!@!').reverse().join('!@!@2@!@!');
+    messagedb.findOne({ $or: [{ "room": user.room }, { "room": temp }] }, (err, foundMsg) => {
         if (err) return reject(err);
         resolve(foundMsg);
     })
-);
+});
+
 
 
 module.exports = {
