@@ -21,13 +21,18 @@ marketRoutes = require("./routes/market");
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
-const formatMessage = require('./utils/messages');
+const {
+    formatMessage
+    // getmessage
+} = require('./utils/messages');
+
 const {
     userJoin,
     getCurrentUser,
     userLeave,
     getRoomUsers
 } = require('./utils/users');
+const user = require("./models/user")
 
 const app = express();
 const server = http.createServer(app);
@@ -148,6 +153,8 @@ io.on('connection', socket => {
             } else {
                 socket.join(user.room);
             }
+            // getting old messages
+            // socket.to(user.room).emit('getmessage', getmessage(user));
         }
 
 
@@ -193,6 +200,10 @@ io.on('connection', socket => {
             });
         }
     });
+
+
+
+
 });
 
 

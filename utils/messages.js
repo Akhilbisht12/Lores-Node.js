@@ -11,9 +11,7 @@ function formatMessage(user, text) {
         if (err) {
             console.log(err);
         } else {
-            console.log(foundMsg)
             if (!foundMsg) {
-                console.log(foundMsg)
                 messagedb.create({
                     room: user.room,
                     message: [{
@@ -36,13 +34,8 @@ function formatMessage(user, text) {
                         msg: text
                     }
                 }
-                console.log("from else" + typeof(foundMsg));
-                console.log(foundMsg.message)
-                console.log(foundMsg.room)
-                console.log(foundMsg._id)
                 foundMsg.message.push(pushmsg);
                 foundMsg.save();
-                console.log(foundMsg)
             }
         }
     })
@@ -54,4 +47,19 @@ function formatMessage(user, text) {
     };
 }
 
-module.exports = formatMessage;
+// function getmessage(user) {
+//     var msg = {};
+//     messagedb.findById(user.room, function(err, found) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             msg = found;
+//         }
+//     })
+//     return msg;
+// }
+
+module.exports = {
+    formatMessage
+    // getmessage
+};
