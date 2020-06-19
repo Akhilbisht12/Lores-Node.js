@@ -218,6 +218,13 @@ io.on('connection', socket => {
     });
 });
 
+// ***************************************************//
+//***********socket notification system *************//
+// ***************************************************//
+io.on('connection', socket => {
+    console.log("connection succesful");
+})
+
 
 const PORT = process.env.PORT || 3000;
 
