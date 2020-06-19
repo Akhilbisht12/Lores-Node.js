@@ -154,14 +154,17 @@ io.on('connection', socket => {
                 socket.join(user.room);
                 // console.log("from app .js " + getOldMessage(user));
                 getOldMessage(user).then(message => {
+                    console.log('from app' + message)
                     io.to(user.room).emit('getOldMessage', message)
-
                 });
             } else {
                 socket.join(user.room);
                 getOldMessage(user).then(message => {
-                    io.to(user.room).emit('getOldMessage', message)
-
+                    if (message !== null) {
+                        console.log("not null")
+                        console.log('from app' + message)
+                        io.to(user.room).emit('getOldMessage', message)
+                    }
                 });
             }
         }
@@ -189,10 +192,10 @@ io.on('connection', socket => {
         const user = getCurrentUser(socket.id);
 
         io.to(user.room).emit('message', formatMessage(user, msg));
-        if (!checkUser(user)) {
-            notifyUser(user);
-            io.to(user.room).emit('checkUser', checkUser(user));
-        }
+        // if (!checkUser(user)) {
+        //     notifyUser(user);
+        //     io.to(user.room).emit('checkUser', checkUser(user));
+        // }
 
     });
 

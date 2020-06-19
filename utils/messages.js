@@ -32,18 +32,18 @@ function formatMessage(user, text) {
                 })
             } else {
                 var pushmsg = {
-                    sender: {
-                        id: user.username,
-                        msg: text
+                        sender: {
+                            id: user.username,
+                            msg: text
+                        }
                     }
-                }
-                console.log("from else" + typeof(foundMsg));
-                console.log(foundMsg.message)
-                console.log(foundMsg.room)
-                console.log(foundMsg._id)
+                    // console.log("from else" + typeof(foundMsg));
+                    // console.log(foundMsg.message)
+                    // console.log(foundMsg.room)
+                    // console.log(foundMsg._id)
                 foundMsg.message.push(pushmsg);
                 foundMsg.save();
-                console.log(foundMsg)
+                // console.log(foundMsg)
             }
         }
     })
@@ -74,6 +74,7 @@ const getOldMessage = user => new Promise((resolve, reject) =>
     messagedb.findOne({ "room": user.room }, (err, foundMsg) => {
         if (err) return reject(err);
         resolve(foundMsg);
+        console.log('from messages' + foundMsg);
     })
 );
 
