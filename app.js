@@ -155,7 +155,7 @@ io.on('connection', socket => {
                 // console.log("from app .js " + getOldMessage(user));
                 getOldMessage(user).then(message => {
                     console.log('from app' + message)
-                    io.to(user.room).emit('getOldMessage', message)
+                    io.to(user.id).emit('getOldMessage', message)
                 });
             } else {
                 socket.join(user.room);
@@ -163,7 +163,7 @@ io.on('connection', socket => {
                     if (message !== null) {
                         console.log("not null")
                         console.log('from app' + message)
-                        io.to(user.room).emit('getOldMessage', message)
+                        io.to(user.id).emit('getOldMessage', message)
                     }
                 });
             }
