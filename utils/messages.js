@@ -12,9 +12,7 @@ function formatMessage(user, text) {
         if (err) {
             console.log(err);
         } else {
-            console.log(foundMsg)
             if (!foundMsg) {
-                console.log(foundMsg)
                 messagedb.create({
                     room: user.room,
                     message: [{

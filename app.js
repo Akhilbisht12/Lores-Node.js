@@ -33,7 +33,13 @@ const {
     checkUser,
     notifyUser
 } = require('./utils/users');
-const user = require("./models/user")
+
+const {
+    getNotificationUser,
+    sendNotificationUser,
+    formatNotification
+} = require('./utils/notification');
+// const user = require("./models/user")
 
 const app = express();
 const server = http.createServer(app);
@@ -89,6 +95,7 @@ app.get("/", function(req, res) {
 
 app.get("/dashboard", function(req, res) {
     res.render("dashboard", { currentUser: req.user });
+    sendNotificationUser(req.user);
 })
 
 app.get("/profile/:id", function(req, res) {
@@ -154,15 +161,12 @@ io.on('connection', socket => {
                 socket.join(user.room);
                 // console.log("from app .js " + getOldMessage(user));
                 getOldMessage(user).then(message => {
-                    console.log('from app' + message)
                     io.to(user.id).emit('getOldMessage', message)
                 });
             } else {
                 socket.join(user.room);
                 getOldMessage(user).then(message => {
                     if (message !== null) {
-                        console.log("not null")
-                        console.log('from app' + message)
                         io.to(user.id).emit('getOldMessage', message)
                     }
                 });
@@ -190,14 +194,29 @@ io.on('connection', socket => {
     // Listen for chatMessage
     socket.on('chatMessage', msg => {
         const user = getCurrentUser(socket.id);
-
+        var notify = formatNotification(user, msg);
         io.to(user.room).emit('message', formatMessage(user, msg));
-        // if (!checkUser(user)) {
-        //     notifyUser(user);
-        //     io.to(user.room).emit('checkUser', checkUser(user));
-        // }
+        if (!checkUser(user)) {
+            io.to(user.user2).emit('notifyUser', notify);
+        }
 
     });
+
+    // *********************************************
+    // ***********Notification System***************
+    // *********************************************
+
+    socket.emit('getNotificationUser', getNotificationUser());
+
+    socket.on('connectUserNotification', user => {
+        socket.join(user._id);
+    })
+
+
+    // *********************************************
+    // *********Notification System Ends************
+    // *********************************************
+
 
     // Runs when client disconnects
     socket.on('disconnect', () => {
