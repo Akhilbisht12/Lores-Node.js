@@ -237,6 +237,7 @@ io.on('connection', socket => {
     });
 });
 
+console.log("for testing ");
 
 const PORT = process.env.PORT || 3000;
 
