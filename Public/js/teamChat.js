@@ -5,8 +5,12 @@ socket.on('getTeamUser', (user) => {
     socket.emit('teamChat', user);
 })
 
-socket.on('printMsg', (msg) => {
+socket.on('printToTeam', (msg) => {
     outputTeamMsg(msg);
+})
+
+socket.on('printToSelf', (msg) => {
+    outputToSelf(msg)
 })
 
 
@@ -37,5 +41,17 @@ function outputTeamMsg(msg) {
         </div>
         <p class="small text-muted">12:00 PM | Aug 13</p>
     </div>`;
+    document.querySelector('#teamMessagediv').appendChild(div);
+}
+
+function outputToSelf(msg) {
+    const div = document.createElement('div');
+    div.classList.add('media', 'w-50', 'ml-auto', 'mb-3');
+    div.innerHTML = ` <div class="media-body">
+    <div class="bg-primary rounded py-2 px-3 mb-2">
+        <p class="text-small mb-0 text-white">${msg.msg}</p>
+    </div>
+    <p class="small text-muted">12:00 PM | Aug 13</p>
+</div>`;
     document.querySelector('#teamMessagediv').appendChild(div);
 }

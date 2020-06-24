@@ -228,7 +228,8 @@ io.on('connection', socket => {
     })
     socket.on('teamChatMessage', (msg) => {
         const room = getTeamRoom();
-        io.to(room).emit('printMsg', printMsg(msg));
+        socket.to(room).emit('printToTeam', printMsg(msg));
+        io.to(socket.id).emit('printToSelf', printMsg(msg));
     })
 
     // Runs when client disconnects
