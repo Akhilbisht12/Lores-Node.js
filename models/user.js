@@ -10,7 +10,11 @@ var UserSchema = new mongoose.Schema({
     },
     email: String,
     firstName: String,
-    lastName: String
+    lastName: String,
+    team: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "team"
+    }]
 });
 
 UserSchema.plugin(passportLocalMongoose);

@@ -17,6 +17,7 @@ feedRoutes = require("./routes/feeds")
 commentRoutes = require("./routes/comments")
 authenticationRoutes = require("./routes/authentication")
 marketRoutes = require("./routes/market");
+teamRoutes = require('./routes/team');
 
 const path = require('path');
 const http = require('http');
@@ -39,8 +40,8 @@ const {
     sendNotificationUser,
     formatNotification
 } = require('./utils/notification');
-// const user = require("./models/user")
 
+const { getTeamUser, printMsg, getTeamRoom } = require('./utils/teamChat')
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -82,6 +83,7 @@ app.use(feedRoutes);
 app.use(commentRoutes);
 app.use(authenticationRoutes);
 app.use(marketRoutes);
+app.use(teamRoutes);
 
 
 
@@ -140,6 +142,8 @@ app.get("/mindex", function(req, res) {
 app.get("/chat", function(req, res) {
     res.render("chat");
 })
+
+
 
 
 function isLoggedIn(req, res, next) {
@@ -213,10 +217,19 @@ io.on('connection', socket => {
     })
 
 
-    // *********************************************
-    // *********Notification System Ends************
-    // *********************************************
 
+
+    // *********************************************
+    // ************Team Chat System*****************
+    // *********************************************
+    socket.emit('getTeamUser', getTeamUser());
+    socket.on('teamChat', (user) => {
+        socket.join(user.room);
+    })
+    socket.on('teamChatMessage', (msg) => {
+        const room = getTeamRoom();
+        io.to(room).emit('printMsg', printMsg(msg));
+    })
 
     // Runs when client disconnects
     socket.on('disconnect', () => {

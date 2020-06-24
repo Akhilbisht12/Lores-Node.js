@@ -1,0 +1,160 @@
+<%- include("Partials/header")%>
+
+    <% if(user.team.length === 0){%>
+        <div class="container py-2 px-4 mb-5">
+            <div class="row rounded-lg overflow-hidden shadow">
+                <div class="row m-5">
+                    <div class="col">
+                        <img src="img/head.png" alt="">
+                    </div>
+                    <div class="col m-4 py-5">
+                        <div class="d-flex flex-column align-items-center py-5 my-5">
+                            <h3>You Are Not in Any Team</h3>
+                            <p>Create or join for battle's and more</p>
+                            <a href="/team/new"><button class="btn-info px-4 py-2 rounded">Create</button></a>
+                            <form id='inviteForm' action="/team/join" method="POST">
+                                <div class="input-group mb-3">
+                                    <input name="inviteId" type="text" class="form-control" placeholder="Invite Code" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <input type="submit" class="input-group-text" id="basic-addon2" value="Join">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <%}else{%>
+            <div class="container py- px-4">
+                <div class="row rounded-lg overflow-hidden shadow">
+                    <!-- Users box-->
+                    <div class="col-5 px-0 border-right">
+                        <div class="bg-white">
+
+                            <div class="bg-gray px-4 py-2 bg-light">
+                                <p class="h5 mb-0 py-1">
+                                    <%= user.team[0].name%>
+                                </p>
+                            </div>
+
+                            <div class="messages-box">
+                                <div class="list-group rounded-0 p-2">
+                                    <% user.team[0].members.forEach(function(member){%>
+                                        <a class="list-group-item list-group-item-action  text-black rounded-0">
+                                            <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                                                <div class="media-body ml-4">
+                                                    <div class="d-flex align-items-center justify-content-between mb-1">
+                                                        <h5 class="mb-0">
+                                                            <%=member%>
+                                                        </h5><small class="small font-weight-bold">25 Dec</small>
+                                                    </div>
+                                                    <p class="font-italic mb-0 text-small">Graphic Designer | Lvl : 50 | 950 Points</p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        <%})%>
+                                </div>
+                            </div>
+
+                            <div class="bg-gray px-4 py-2 bg-light">
+                                <p class="h5 mb-0 py-1">Invite Members</p>
+                            </div>
+                            <div class='shadow p-5'>
+                                <div class="input-group mb-3">
+                                    <input id='teamId' type="text" value="<%=user.team[0].id%>" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button id="basic-addon2" class="input-group-text" onclick="copyFunction()">copy</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Chat Box-->
+                    <div class="col-7 px-0">
+                        <div id="teamMessagediv" class="px-4 py-5 chat-box bg-white">
+                            <!-- Sender Message-->
+                            <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                                <div class="media-body ml-3">
+                                    <div class="bg-light rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-muted">Test which is a new approach all solutions</p>
+                                    </div>
+                                    <p class="small text-muted">12:00 PM | Aug 13</p>
+                                </div>
+                            </div>
+
+                            <!-- Reciever Message-->
+                            <div class="media w-50 ml-auto mb-3">
+                                <div class="media-body">
+                                    <div class="bg-primary rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-white">Test which is a new approach to have all solutions</p>
+                                    </div>
+                                    <p class="small text-muted">12:00 PM | Aug 13</p>
+                                </div>
+                            </div>
+
+                            <!-- Sender Message-->
+                            <div id="teamSender" class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                                <div class="media-body ml-3">
+                                    <div class="bg-light rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-muted">Test, which is a new approach to have</p>
+                                    </div>
+                                    <p class="small text-muted">12:00 PM | Aug 13</p>
+                                </div>
+                            </div>
+
+                            <!-- Reciever Message-->
+                            <div id="teamReceiver" class="media w-50 ml-auto mb-3">
+                                <div class="media-body">
+                                    <div class="bg-primary rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-white">Apollo University, Delhi, India Test</p>
+                                    </div>
+                                    <p class="small text-muted">12:00 PM | Aug 13</p>
+                                </div>
+                            </div>
+
+                            <!-- Sender Message-->
+                            <div class="media w-50 mb-3"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                                <div class="media-body ml-3">
+                                    <div class="bg-light rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-muted">Test, which is a new approach</p>
+                                    </div>
+                                    <p class="small text-muted">12:00 PM | Aug 13</p>
+                                </div>
+                            </div>
+
+                            <!-- Reciever Message-->
+                            <div class="media w-50 ml-auto mb-3">
+                                <div class="media-body">
+                                    <div class="bg-primary rounded py-2 px-3 mb-2">
+                                        <p class="text-small mb-0 text-white">Apollo University, Delhi, India Test</p>
+                                    </div>
+                                    <p class="small text-muted">12:00 PM | Aug 13</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Typing area -->
+                        <form action="/" id="teamChatForm" class="bg-light">
+                            <div class="input-group">
+                                <input id="teamMsg" type="text" placeholder="Type a message" aria-describedby="button-addon2" class="form-control rounded-0 border-0 py-4 bg-light">
+                                <div class="input-group-append">
+                                    <button id="button-addon2" type="submit" class="btn btn-link"> <i class="fa fa-paper-plane"></i></button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <%}%>
+                <script src="/js/jsFunctions.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js" integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4=" crossorigin="anonymous"></script>
+                <script src="/socket.io/socket.io.js"></script>
+                <script src="/js/teamChat.js"></script>
+                </body>
+
+                </html>
