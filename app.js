@@ -153,12 +153,6 @@ app.get('/search', function(req, res) {
 })
 
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-};
-
 
 // Run when client connects
 io.on('connection', socket => {
