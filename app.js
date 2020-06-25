@@ -42,6 +42,7 @@ const {
 } = require('./utils/notification');
 
 const { getTeamUser, printMsg, getTeamRoom } = require('./utils/teamChat')
+const { StringDecoder } = require("string_decoder")
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -143,7 +144,13 @@ app.get("/chat", function(req, res) {
     res.render("chat");
 })
 
-
+// header search field
+app.get('/search', function(req, res) {
+    var text = req.body.headerSearch;
+    console.log(text);
+    var temp = text.split(" ");
+    console.log(temp)
+})
 
 
 function isLoggedIn(req, res, next) {
