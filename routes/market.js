@@ -22,7 +22,9 @@ router.get("/market/new", function(req, res) {
     res.render("marketProductAdd");
 });
 
-var cpUpload = upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }, { name: 'image3', maxCount: 1 }, { name: 'image4', maxCount: 1 }])
+var cpUpload = upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 },
+ { name: 'image3', maxCount: 1 }, { name: 'image4', maxCount: 1 }])
+ 
 router.post("/market/:id/new", cpUpload, function(req, res) {
     item.create({
         name: req.body.name,
