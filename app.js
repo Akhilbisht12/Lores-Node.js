@@ -17,6 +17,8 @@ feedRoutes = require("./routes/feeds")
 commentRoutes = require("./routes/comments")
 authenticationRoutes = require("./routes/authentication")
 marketRoutes = require("./routes/market");
+nodemailer = require('nodemailer');
+const bcrypt=require('bcryptjs');
 
 const path = require('path');
 const http = require('http');
@@ -237,6 +239,7 @@ io.on('connection', socket => {
     });
 });
 
+console.log("for testing ");
 
 const PORT = process.env.PORT || 3000;
 
