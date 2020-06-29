@@ -8,15 +8,13 @@ var teamSchema = mongoose.Schema({
     members: [{
         member: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            autopopulate: true
+            ref: 'user'
         }
     }],
     messages: [{
         id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            autopopulate: true
+            ref: "user"
         },
         message: String
     }]

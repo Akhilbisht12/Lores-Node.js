@@ -1,5 +1,5 @@
-var user = require('../models/user');
-var team = require('../models/team');
+var user = require('../models/user')
+team = require('../models/team')
 var senduser = String;
 var room = String;
 
@@ -29,18 +29,9 @@ function getTeamRoom() {
     return room;
 }
 
-const teamOldMessage = room => new Promise((resolve, reject) => {
-    team.findOne(room, (err, team) => {
-        if (err) return reject(err);
-        console.log(team)
-        resolve(team.messages);
-    })
-});
-
 module.exports = {
     sendTeamUser,
     getTeamUser,
     printMsg,
-    getTeamRoom,
-    teamOldMessage
+    getTeamRoom
 }

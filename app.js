@@ -50,9 +50,9 @@ const {
 const {
     getTeamUser,
     printMsg,
-    getTeamRoom,
-    teamOldMessage
+    getTeamRoom
 } = require('./utils/teamChat')
+const { StringDecoder } = require("string_decoder")
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -238,16 +238,7 @@ io.on('connection', socket => {
     socket.emit('getTeamUser', getTeamUser());
     socket.on('teamChat', (user) => {
         socket.join(user.room);
-        console.log('good till here')
-        teamOldMessage(user.room).then(messages => {
-            if (messages !== null) {
-                console.log(messages)
-                io.to(user.id).emit('teamOldMessage', messages)
-            }
-
-        })
-    });
-
+    })
     socket.on('teamChatMessage', (msg) => {
         const room = getTeamRoom();
         socket.to(room).emit('printToTeam', printMsg(msg));
