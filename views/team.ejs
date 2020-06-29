@@ -41,13 +41,13 @@
 
                             <div class="messages-box">
                                 <div class="list-group rounded-0 p-2">
-                                    <% user.team[0].members.forEach(function(member){%>
+                                    <% user.team[0].members.forEach(function(members){%>
                                         <a class="list-group-item list-group-item-action  text-black rounded-0">
-                                            <div class="media"><img src="https://res.cloudinary.com/mhmd/image/upload/v1564960395/avatar_usae7z.svg" alt="user" width="50" class="rounded-circle">
+                                            <div class="media"><img src="<%=members.member.image%>" alt="user" width="50" class="rounded-circle">
                                                 <div class="media-body ml-4">
                                                     <div class="d-flex align-items-center justify-content-between mb-1">
                                                         <h5 class="mb-0">
-                                                            <%=member%>
+                                                            <%=members.member.username%>
                                                         </h5><small class="small font-weight-bold">25 Dec</small>
                                                     </div>
                                                     <p class="font-italic mb-0 text-small">Graphic Designer | Lvl : 50 | 950 Points</p>
