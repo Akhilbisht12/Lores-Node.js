@@ -32,7 +32,8 @@ function formatMessage(user, text) {
                 var pushmsg = {
                         sender: {
                             id: user.username,
-                            msg: text
+                            msg: text,
+                            time: moment().format('h:mm a')
                         }
                     }
                     // console.log("from else" + typeof(foundMsg));

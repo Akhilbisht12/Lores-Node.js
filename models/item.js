@@ -19,5 +19,5 @@ itemSchema = mongoose.Schema({
         }
     }
 })
-
+itemSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("item", itemSchema);

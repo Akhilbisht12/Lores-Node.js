@@ -21,9 +21,12 @@ teamRoutes = require('./routes/team');
 nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 
+// variables for socket.io
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
+
+// importing socket functions from utils
 const {
     formatMessage,
     getOldMessage
@@ -34,7 +37,8 @@ const {
     userLeave,
     getRoomUsers,
     checkUser,
-    notifyUser
+    notifyUser,
+    getChatTitle
 } = require('./utils/users');
 
 const {
@@ -43,7 +47,11 @@ const {
     formatNotification
 } = require('./utils/notification');
 
-const { getTeamUser, printMsg, getTeamRoom } = require('./utils/teamChat')
+const {
+    getTeamUser,
+    printMsg,
+    getTeamRoom
+} = require('./utils/teamChat')
 const { StringDecoder } = require("string_decoder")
 const app = express();
 const server = http.createServer(app);
@@ -56,14 +64,12 @@ const botName = {
     username: 'Lores Bot'
 };
 
-
 // seeding Database
 // seedDB();
 
 // Connection Database
-
-// mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once("open", function() {
     console.log("Database connection Successful");
 })
@@ -168,12 +174,14 @@ io.on('connection', socket => {
                 socket.join(user.room);
                 // console.log("from app .js " + getOldMessage(user));
                 getOldMessage(user).then(message => {
+                    console.log(message)
                     io.to(user.id).emit('getOldMessage', message)
                 });
             } else {
                 socket.join(user.room);
                 getOldMessage(user).then(message => {
                     if (message !== null) {
+                        console.log(message)
                         io.to(user.id).emit('getOldMessage', message)
                     }
                 });
@@ -202,7 +210,9 @@ io.on('connection', socket => {
     socket.on('chatMessage', msg => {
         const user = getCurrentUser(socket.id);
         var notify = formatNotification(user, msg);
-        io.to(user.room).emit('message', formatMessage(user, msg));
+        var message = formatMessage(user, msg);
+        socket.to(user.room).emit('message', message);
+        io.to(socket.id).emit('messageSelf', message);
         if (!checkUser(user)) {
             io.to(user.user2).emit('notifyUser', notify);
         }
@@ -254,8 +264,5 @@ io.on('connection', socket => {
     });
 });
 
-console.log("for testing ");
-
 const PORT = process.env.PORT || 3000;
-
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

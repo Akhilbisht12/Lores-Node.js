@@ -11,5 +11,6 @@ var commentSchema = mongoose.Schema({
         image: String
     }
 });
-
-module.exports = mongoose.model("comments", commentSchema);
+const commentSchema2 = mongoose.Schema({ comment: commentSchema });
+commentSchema2.plugin(require('mongoose-autopopulate'));
+module.exports = mongoose.model("comments", commentSchema2);

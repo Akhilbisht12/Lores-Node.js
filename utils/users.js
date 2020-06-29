@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var userdb = require("../models/user");
 const users = [];
+var chatTitle = String;
 
 // Join user to chat
 function userJoin(id, username, user2) {
@@ -44,9 +45,18 @@ function checkUser(userVar) {
 }
 
 function notifyUser(user) {
-    userdb.findById(user.user2, function(err, findUser) {
 
+}
+
+function getChatTitle(user) {
+    userdb.findById(user, function(err, foundUser) {
+        if (err) {
+            console.log(err);
+        } else {
+            chatTitle = foundUser.username;
+        }
     })
+    return chatTitle
 }
 
 module.exports = {
@@ -55,5 +65,6 @@ module.exports = {
     userLeave,
     getRoomUsers,
     checkUser,
-    notifyUser
+    notifyUser,
+    getChatTitle
 };

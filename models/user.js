@@ -1,10 +1,10 @@
 var mongoose = require("mongoose")
 passportLocalMongoose = require("passport-local-mongoose");
 
-var UserSchema = new mongoose.Schema({
+var UserSchema = mongoose.Schema({
     username: String,
-    password: String,  
-      resetPasswordToken: String,
+    password: String,
+    resetPasswordToken: String,
     resetPasswordExpires: Date,
     image: {
         type: String,
@@ -20,5 +20,5 @@ var UserSchema = new mongoose.Schema({
 });
 
 UserSchema.plugin(passportLocalMongoose);
-
+// UserSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("User", UserSchema);

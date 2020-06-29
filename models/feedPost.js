@@ -22,5 +22,5 @@ feedPostSchema = mongoose.Schema({
         ref: 'like'
     }]
 });
-
+feedPostSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("feedPost", feedPostSchema);
