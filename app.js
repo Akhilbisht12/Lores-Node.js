@@ -54,6 +54,7 @@ const {
     teamOldMessage
 } = require('./utils/teamChat')
 const { StringDecoder } = require("string_decoder")
+const user = require("./models/user")
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -69,8 +70,8 @@ const botName = {
 // seedDB();
 
 // Connection Database
-// mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once("open", function() {
     console.log("Database connection Successful");
 })
@@ -156,10 +157,18 @@ app.get("/chat", function(req, res) {
 // header search field
 app.post('/search', function(req, res) {
     var text = req.body.headerSearch;
-    console.log(text);
     var temp = text.split(" ");
-    console.log(temp)
-    res.redirect('back')
+    User.find({ $or: [{ "firstName": temp[0] }, { "lastName": temp[0] }] }, (err, foundUser) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.render('searchResults', { user: foundUser })
+        }
+    })
+});
+
+app.get('/course/:id', function(req, res) {
+    res.render('coursePlayer')
 })
 
 

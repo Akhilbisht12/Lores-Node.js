@@ -1,0 +1,26 @@
+<%- include("Partials/header")%>
+    <div class="container">
+        <% user.forEach(function(user){%>
+            <div class="bg-light px-3 py-2 rounded border mb-2">
+                <div class="media w-50"><img src="<%= user.image%>" alt="user" width="50" class="rounded-circle">
+                    <div class="media-body ml-3">
+                        <div class="bg-light rounded px-3 mb-0">
+                            <span class="text-small mb-0 text-muted">
+                                <h5>
+                                <%= user.firstName + " " + user.lastName%>
+                                </h5>
+                                <p>
+                                <%= user.team[0]%>
+                                </p>
+                            </span>
+                        </div>
+                        <div>
+                            <a href="/profile/<%user._id%>"><button class="btn btn-primary">View Profile</button></a>
+                        </div>
+                        <p class="small text-muted">12:00 PM | Aug 13</p>
+                    </div>
+                </div>
+            </div>
+            <%})%>
+    </div>
+    <%- include("Partials/footer")%>

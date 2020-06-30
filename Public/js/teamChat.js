@@ -1,4 +1,5 @@
 const teamChatForm = document.getElementById('teamChatForm')
+var teamMessageDiv = document.getElementById('teamMessagediv')
 const socket = io();
 var userNow = {}
 
@@ -48,6 +49,8 @@ function outputTeamMsg(msg) {
         <p class="small text-muted">12:00 PM | Aug 13</p>
     </div>`;
     document.querySelector('#teamMessagediv').appendChild(div);
+    teamMessageDiv.scrollTop = teamMessageDiv.scrollHeight;
+
 }
 
 function outputToSelf(msg) {
@@ -60,6 +63,9 @@ function outputToSelf(msg) {
     <p class="small text-muted">12:00 PM | Aug 13</p>
 </div>`;
     document.querySelector('#teamMessagediv').appendChild(div);
+    teamMessageDiv.scrollTop = teamMessageDiv.scrollHeight;
+
+
 }
 
 function outputOldMessage(team) {
@@ -88,4 +94,5 @@ function outputOldMessage(team) {
             document.querySelector('#teamMessagediv').appendChild(div);
         }
     });
+    teamMessageDiv.scrollTop = teamMessageDiv.scrollHeight;
 }
