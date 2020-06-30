@@ -50,7 +50,8 @@ const {
 const {
     getTeamUser,
     printMsg,
-    getTeamRoom
+    getTeamRoom,
+    teamOldMessage
 } = require('./utils/teamChat')
 const { StringDecoder } = require("string_decoder")
 const app = express();
@@ -153,11 +154,12 @@ app.get("/chat", function(req, res) {
 })
 
 // header search field
-app.get('/search', function(req, res) {
+app.post('/search', function(req, res) {
     var text = req.body.headerSearch;
     console.log(text);
     var temp = text.split(" ");
     console.log(temp)
+    res.redirect('back')
 })
 
 
@@ -238,11 +240,18 @@ io.on('connection', socket => {
     socket.emit('getTeamUser', getTeamUser());
     socket.on('teamChat', (user) => {
         socket.join(user.room);
+        teamOldMessage(user.room).then(messages => {
+            if (messages !== null) {
+                console.log(messages)
+                io.to(socket.id).emit('teamOldMessage', messages)
+            }
+        });
     })
     socket.on('teamChatMessage', (msg) => {
         const room = getTeamRoom();
-        socket.to(room).emit('printToTeam', printMsg(msg));
-        io.to(socket.id).emit('printToSelf', printMsg(msg));
+        var message = printMsg(msg);
+        socket.to(room).emit('printToTeam', message);
+        io.to(socket.id).emit('printToSelf', message);
     })
 
     // Runs when client disconnects
