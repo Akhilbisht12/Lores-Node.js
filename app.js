@@ -53,8 +53,6 @@ const {
     getTeamRoom,
     teamOldMessage
 } = require('./utils/teamChat')
-const { StringDecoder } = require("string_decoder")
-const user = require("./models/user")
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);

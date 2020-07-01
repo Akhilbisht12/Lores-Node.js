@@ -103,13 +103,13 @@
                                     <div class="mr-2">
                                         <img class="rounded-circle" width="45" src="<%= posts.author.image%>" alt="">
                                     </div>
-                                    <a href="/profile/<%=posts.author.id%>">
+                                    <a href="/profile/<%=posts.author.id._id%>">
                                         <div class="ml-2">
                                             <div class="h5 m-0">
-                                                User Full Name
+                                                <%= posts.author.id.firstName + " " + posts.author.id.lastName %>
                                             </div>
                                             <div class="h7 text-muted">
-                                                <%= posts.author.username %>
+                                                <%= posts.author.id.username %>
                                             </div>
                                         </div>
                                     </a>

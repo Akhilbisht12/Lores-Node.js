@@ -9,9 +9,11 @@
                         </div>
                         <div class="ml-2">
                             <div class="h5 m-0">
-                                <%= post.author.username %>
+                                <%= post.author.id.firstName + " " + post.author.id.lastName %>
                             </div>
-                            <div class="h7 text-muted">Miracles Lee Cross</div>
+                            <div class="h7 text-muted">
+                                <%= post.author.id.username%>
+                            </div>
                         </div>
                     </div>
                     <div>
@@ -75,19 +77,19 @@
             </form>
 
             <!-- comments reading section -->
-            <% post.comments.forEach(function(comment){%>
+            <% post.comments.forEach(function(comments){%>
                 <div class="card-header">
                     <div class="d-flex justify-content-start align-items-center">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="mr-2">
-                                <img class="rounded-circle" width="45" src="<%= comment.author.image %>" alt="">
+                                <img class="rounded-circle" width="45" src="/<%= comments.comment.author.image %>" alt="">
                             </div>
                             <div class="ml-2">
                                 <div class="h5 m-0">
-                                    <%=comment.author.username%>
+                                    <%=comments.comment.author.username%>
                                 </div>
-                                <div class="h7 text-muted">
-                                    <%=comment.text%>
+                                <div class="text-muted">
+                                    <%=comments.comment.text%>
                                 </div>
                             </div>
                         </div>

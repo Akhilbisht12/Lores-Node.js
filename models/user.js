@@ -8,7 +8,7 @@ var UserSchema = mongoose.Schema({
     resetPasswordExpires: Date,
     image: {
         type: String,
-        default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+        default: "uploads/loresuser.jpg"
     },
     email: String,
     firstName: String,
@@ -16,7 +16,23 @@ var UserSchema = mongoose.Schema({
     team: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "team"
-    }]
+    }],
+    earning: {
+        type: Number,
+        default: 0
+    },
+    followers: {
+        type: Number,
+        default: 0
+    },
+    loresPoints: {
+        type: Number,
+        default: 0
+    },
+    loresCredits: {
+        type: Number,
+        default: 0
+    }
 });
 
 UserSchema.plugin(passportLocalMongoose);

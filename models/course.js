@@ -8,7 +8,6 @@ var courseSchema = mongoose.Schema({
         embed: String
     }],
     category: String,
-    rating: Number,
     tags: [{
         tagName: String
     }],

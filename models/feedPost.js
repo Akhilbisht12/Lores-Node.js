@@ -7,14 +7,14 @@ feedPostSchema = mongoose.Schema({
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "user"
-        },
-        username: String,
-        image: String
+            ref: "User",
+            autopopulate: true
+        }
     },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "comments"
+        ref: "comments",
+        autopopulate: true
     }],
 
     likes: [{

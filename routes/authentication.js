@@ -26,10 +26,11 @@ router.post("/register", function(req, res) {
         if (err) {
             console.log(err);
             return res.render("register");
-        }
-        passport.authenticate("local")(req, res, function() {
+        } else {
+            // passport.authenticate("local")(req, res, function() {
             res.redirect("/dashboard");
-        })
+            // })
+        }
     })
 })
 
