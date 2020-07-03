@@ -278,9 +278,9 @@
                                     <%}else{%>
                                         <% for(var i=0; i<=4; i++){%>
                                             <% if(currentUser.messageNotification[i]){%>
-                                    <a class="dropdown-item d-flex align-items-center" href="#">
+                                    <a href="/chat?username=<%=currentUser._id%>&room=<%=currentUser.messageNotification[i].fromUser._id%>" class="dropdown-item d-flex align-items-center" href="#">
                                         <div class="dropdown-list-image mr-3">
-                                            <img class="rounded-circle" src="<%=currentUser.messageNotification[i]%>" alt="">
+                                            <img class="rounded-circle" src="<%=currentUser.messageNotification[i].fromUser.image%>" alt="">
                                             <div class="status-indicator bg-success"></div>
                                         </div>
                                         <div class="font-weight-bold">

@@ -15,7 +15,8 @@ var UserSchema = mongoose.Schema({
     lastName: String,
     team: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "team"
+        ref: "team",
+        autopopulate : true
     }],
     notification: [{
         type: mongoose.Schema.Types.ObjectId,

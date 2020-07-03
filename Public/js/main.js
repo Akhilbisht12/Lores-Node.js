@@ -80,7 +80,7 @@ function outputMessageSelf(message) {
 function outputMessage(message) {
     const div = document.createElement('div');
     div.classList.add('media', 'w-50', 'mb-3');
-    div.innerHTML = `<img src="${msg.sender.id.image}" alt="user" width="30" class="rounded-circle">
+    div.innerHTML = `<img src="${message.username}" alt="user" width="30" class="rounded-circle">
     <div class="media-body ml-3">
         <div class="bg-light rounded py-2 px-3 mb-2">
             <h6 class="mb-0">${message.username}</h6>
