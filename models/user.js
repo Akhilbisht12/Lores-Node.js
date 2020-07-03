@@ -17,6 +17,15 @@ var UserSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "team"
     }],
+    notification: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "notification"
+    }],
+    messageNotification: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "messageNotification",
+        autopopulate : true
+    }],
     earning: {
         type: Number,
         default: 0
@@ -36,5 +45,5 @@ var UserSchema = mongoose.Schema({
 });
 
 UserSchema.plugin(passportLocalMongoose);
-// UserSchema.plugin(require('mongoose-autopopulate'));
+UserSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("User", UserSchema);
