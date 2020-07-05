@@ -14,6 +14,7 @@ socket.on('printToSelf', (msg) => {
 })
 
 
+
 teamChatForm.addEventListener('submit', e => {
     console.log('clicked')
     e.preventDefault();

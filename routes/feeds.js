@@ -1,10 +1,10 @@
 var express = require("express");
 router = express.Router();
-methodOverride = require("method-override")
+
 feedPost = require("../models/feedPost")
 upload = require("../multer");
 passport = require("../passport");
-
+methodOverride = require("method-override")
 router.use(methodOverride("_method"));
 
 // feed Routes
