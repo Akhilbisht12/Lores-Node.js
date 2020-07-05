@@ -21,6 +21,9 @@ teamRoutes = require('./routes/team');
 nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 
+// importing algo's
+const engagementAlgos = require('./algorithms/engagement');
+
 // variables for socket.io
 const path = require('path');
 const http = require('http');
@@ -53,6 +56,7 @@ const {
     getTeamRoom,
     teamOldMessage
 } = require('./utils/teamChat')
+const engagementAlgo = require("./algorithms/engagement")
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -67,9 +71,12 @@ const botName = {
 // seeding Database
 // seedDB();
 
+// running alogos
+engagementAlgos();
+
 // Connection Database
-// mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once("open", function() {
     console.log("Database connection Successful");
 })

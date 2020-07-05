@@ -19,8 +19,9 @@ feedPostSchema = mongoose.Schema({
 
     likes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'like'
-    }]
+        ref: 'User'
+    }],
+    engagement :Array
 });
 feedPostSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("feedPost", feedPostSchema);

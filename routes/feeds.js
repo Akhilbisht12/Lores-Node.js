@@ -5,19 +5,23 @@ feedPost = require("../models/feedPost")
 upload = require("../multer");
 passport = require("../passport");
 
+// importing algo's
+const engagementAlgos = require('../algorithms/engagement');
+
 router.use(methodOverride("_method"));
 
 // feed Routes
 router.get("/feed", isLoggedIn, function(req, res) {
+    // running alogos
+    engagementAlgos();
     feedPost.find({}, function(err, feeds) {
         if (err) {
             console.log(err);
         } else {
             User
             res.render("feed", { feeds: feeds });
-
         }
-    })
+    }).sort( { engagement: -1 })
 });
 
 // feedPost route

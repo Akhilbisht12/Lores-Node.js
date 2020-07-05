@@ -29,6 +29,19 @@ router.post("/feed/:id", function(req, res) {
     })
 });
 
+// like route
+router.get('/like/:id', function(req,res){
+    feedPost.findById(req.params.id, function(err,post){
+        if(err){
+            console.log(err)
+        }else{
+            post.likes.push(req.user._id);
+            post.save();
+            res.send('liked');
+        }
+    })
+})
+
 
 
 module.exports = router;

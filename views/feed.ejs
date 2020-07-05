@@ -145,8 +145,15 @@
                             </a>
                         </div>
                         <div class="card-footer">
-                            <a href="#" class="card-link"><i class="fa fa-gittip"></i> Like</a>
-                            <a href="/feed/<%=posts._id%>" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+                            <%if(posts.likes.includes(currentUser._id)){%>
+                                <input name="likeBtn" class="likedButton" type="submit" value=" <%=posts.likes.length%> Like">
+                            <%}else{%>
+                            <form class="likeForm d-inline mx-2" action="#">
+                            <input name="id" id="" class="d-none likeButtonId" value="<%=posts._id%>">
+                            <input name="likeBtn" class="likeButton" type="submit" value="<%=posts.likes.length%> Like">
+                            </form> 
+                            <%}%>
+                            <a href="/feed/<%=posts._id%>" class="card-link"><i class="fa fa-comment"><%=posts.comments.length%></i> Comment</a>
                             <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
                         </div>
                     </div>
