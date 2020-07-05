@@ -13,12 +13,20 @@ const socket = io();
 socket.emit('joinRoom', { username, room });
 
 // Get room and users
-socket.on('roomUsers', ({ room, users }) => {
-    outputRoomName(room);
-    outputUsers(users);
-});
+// socket.on('roomUsers', ({ room, users }) => {
+//     outputRoomName(room);
+//     outputUsers(users);
+// });
 
 // Message from server
+socket.on('messageSelf', message => {
+    console.log(message);
+    outputMessageSelf(message);
+
+    // Scroll down
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+
 socket.on('message', message => {
     console.log(message);
     outputMessage(message);
@@ -34,6 +42,11 @@ socket.on('checkUser', isUser => {
 socket.on('getOldMessage', oldMsg => {
     console.log(oldMsg);
     outputOldMessages(oldMsg);
+})
+
+socket.on('chatTitle', chatTitle => {
+    var chatUser = document.getElementById('#chatUser');
+    chatUser.innerHTML - `${chatTitle}`
 })
 
 // Message submit
@@ -52,13 +65,29 @@ chatForm.addEventListener('submit', e => {
 });
 
 // Output message to DOM
+function outputMessageSelf(message) {
+    const div = document.createElement('div');
+    div.classList.add('media', 'w-50', 'ml-auto', 'mb-3');
+    div.innerHTML = ` <div class="media-body">
+    <div class="bg-primary rounded py-2 px-3 mb-2">
+        <p class="text-small mb-0 text-white">${message.text}</p>
+    </div>
+    <p class="small text-muted">${message.time} | Aug 13</p>
+</div>`;
+    document.querySelector('.chat-messages').appendChild(div);
+}
+
 function outputMessage(message) {
     const div = document.createElement('div');
-    div.classList.add('message');
-    div.innerHTML = `<p class="meta">${message.username} <span>${message.time}</span></p>
-  <p class="text">
-    ${message.text}
-  </p>`;
+    div.classList.add('media', 'w-50', 'mb-3');
+    div.innerHTML = `<img src="${message.username}" alt="user" width="30" class="rounded-circle">
+    <div class="media-body ml-3">
+        <div class="bg-light rounded py-2 px-3 mb-2">
+            <h6 class="mb-0">${message.username}</h6>
+            <p class="text-small mb-0 text-muted">${message.text}</p>
+        </div>
+        <p class="small text-muted">${message.time} | Aug 13</p>
+    </div>`;
     document.querySelector('.chat-messages').appendChild(div);
 }
 
@@ -75,15 +104,34 @@ function outputUsers(users) {
 }
 
 function outputOldMessages(oldMsg){
+    var name = String;
     oldMsg.message.forEach(msg => {
-        const div = document.createElement('div');
-    div.classList.add('message');
-    div.innerHTML = `<p class="meta">${msg.sender.id} <span>time</span></p>
-  <p class="text">
-    ${msg.sender.msg}
-  </p>`;
+        if(msg.sender.id._id === username){
+    const div = document.createElement('div');
+    div.classList.add('media', 'w-50', 'ml-auto', 'mb-3');
+    div.innerHTML = ` <div class="media-body">
+    <div class="bg-primary rounded py-2 px-3 mb-2">
+        <p class="text-small mb-0 text-white">${msg.sender.msg}</p>
+    </div>
+    <p class="small text-muted">${msg.sender.time} | Aug 13</p>
+</div>`;
     document.querySelector('.chat-messages').appendChild(div);
-    
+        }else{ 
+            name = msg.sender.id.username;
+            const div = document.createElement('div');
+            div.classList.add('media', 'w-50', 'mb-3');
+            div.innerHTML = `<img src="${msg.sender.id.image}" alt="user" width="30" class="rounded-circle">
+            <div class="media-body ml-3">
+                <div class="bg-light rounded py-2 px-3 mb-2">
+                    <h6 class="mb-0">${msg.sender.id.username}</h6>
+                    <p class="text-small mb-0 text-muted">${msg.sender.msg}</p>
+                </div>
+                <p class="small text-muted">${msg.sender.time} | Aug 13</p>
+            </div>`;
+            document.querySelector('.chat-messages').appendChild(div);
+        }
+        var chatUser = document.getElementById('chatUser');
+        chatUser.innerHTML = `${name}`;
 });
 chatMessages.scrollTop = chatMessages.scrollHeight;
 

@@ -4,20 +4,28 @@ router = express.Router();
 feedPost = require("../models/feedPost")
 upload = require("../multer");
 passport = require("../passport");
+//<<<<<<< HEAD
 methodOverride = require("method-override")
+//=======
+
+// importing algo's
+const engagementAlgos = require('../algorithms/engagement');
+
+//>>>>>>> b1c8cf2477276d4731a8c6bc598488a2834df1d1
 router.use(methodOverride("_method"));
 
 // feed Routes
 router.get("/feed", isLoggedIn, function(req, res) {
+    // running alogos
+    engagementAlgos();
     feedPost.find({}, function(err, feeds) {
         if (err) {
             console.log(err);
         } else {
             User
             res.render("feed", { feeds: feeds });
-
         }
-    })
+    }).sort( { engagement: -1 })
 });
 
 // feedPost route

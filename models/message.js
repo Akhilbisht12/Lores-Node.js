@@ -6,10 +6,12 @@ var messageSchema = mongoose.Schema({
         sender: {
             id: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "user"
+                ref: "User",
+                autopopulate: true
             },
             msg: String
         }
     }]
 });
+messageSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("message", messageSchema);

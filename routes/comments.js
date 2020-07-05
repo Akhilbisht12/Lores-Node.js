@@ -12,12 +12,10 @@ router.post("/feed/:id", function(req, res) {
             console.log(err);
         } else {
             Comments.create({
-                text: req.body.postComment,
-                author: {
-                    id: req.user._id,
-                    username: req.user.username,
-                    image: req.user.image
-                }
+                comment: {
+                    text: req.body.postComment,
+                    author: req.user._id
+                },
             }, function(err, comment) {
                 if (err) {
                     console.log(err);
@@ -30,6 +28,19 @@ router.post("/feed/:id", function(req, res) {
         }
     })
 });
+
+// like route
+router.get('/like/:id', function(req,res){
+    feedPost.findById(req.params.id, function(err,post){
+        if(err){
+            console.log(err)
+        }else{
+            post.likes.push(req.user._id);
+            post.save();
+            res.send('liked');
+        }
+    })
+})
 
 
 

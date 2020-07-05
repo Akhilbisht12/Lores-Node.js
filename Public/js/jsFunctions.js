@@ -1,3 +1,4 @@
+
 function copyFunction() {
     /* Get the text field */
     var copyText = document.getElementById("teamId");
@@ -12,4 +13,22 @@ function copyFunction() {
     /* Alert the copied text */
     alert("Copied!!");
 }
-console.log('connected form jsfunctions')
+
+console.log('connected js functions')
+$(function(){
+    $('.likeForm').on('submit', function(e){
+        e.preventDefault();
+        var btn = e.target.elements.likeBtn;
+            btn.style.color = 'red';
+        var id = e.target.elements.id.value;
+        $.ajax({
+            url : `/like/${id}`,
+            type : 'GET',
+            contentType : 'application/json',
+            success : function(res){
+                console.log(res);
+                
+            }
+        })
+    })
+})

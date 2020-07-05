@@ -1,15 +1,14 @@
 var mongoose = require("mongoose");
 
 var commentSchema = mongoose.Schema({
-    text: String,
-    author: {
-        id: {
+    comment: {
+        text: String,
+        author: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "user"
-        },
-        username: String,
-        image: String
+            ref: "User",
+            autopopulate: true
+        }
     }
 });
-
+commentSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("comments", commentSchema);

@@ -8,17 +8,19 @@ var teamSchema = mongoose.Schema({
     members: [{
         member: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'user'
+            ref: 'User',
+            autopopulate: true
         }
     }],
     messages: [{
         id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "user"
+            ref: "User",
+            autopopulate: true
         },
         message: String
     }]
 
 })
-
+teamSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("team", teamSchema);

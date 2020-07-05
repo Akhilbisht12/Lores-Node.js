@@ -21,9 +21,15 @@ teamRoutes = require('./routes/team');
 nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 
+// importing algo's
+const engagementAlgos = require('./algorithms/engagement');
+
+// variables for socket.io
 const path = require('path');
 const http = require('http');
 const socketio = require('socket.io');
+
+// importing socket functions from utils
 const {
     formatMessage,
     getOldMessage
@@ -34,7 +40,8 @@ const {
     userLeave,
     getRoomUsers,
     checkUser,
-    notifyUser
+    notifyUser,
+    getChatTitle
 } = require('./utils/users');
 
 const {
@@ -43,8 +50,13 @@ const {
     formatNotification
 } = require('./utils/notification');
 
-const { getTeamUser, printMsg, getTeamRoom } = require('./utils/teamChat')
-const { StringDecoder } = require("string_decoder")
+const {
+    getTeamUser,
+    printMsg,
+    getTeamRoom,
+    teamOldMessage
+} = require('./utils/teamChat')
+const engagementAlgo = require("./algorithms/engagement")
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -56,14 +68,20 @@ const botName = {
     username: 'Lores Bot'
 };
 
-
 // seeding Database
 // seedDB();
 
-// Connection Database
+// running alogos
+engagementAlgos();
 
+//<<<<<<< HEAD
 mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
 //mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+//=======
+// Connection Database
+mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+//>>>>>>> b1c8cf2477276d4731a8c6bc598488a2834df1d1
 mongoose.connection.once("open", function() {
     console.log("Database connection Successful");
 })
@@ -147,11 +165,20 @@ app.get("/chat", function(req, res) {
 })
 
 // header search field
-app.get('/search', function(req, res) {
+app.post('/search', function(req, res) {
     var text = req.body.headerSearch;
-    console.log(text);
     var temp = text.split(" ");
-    console.log(temp)
+    User.find({ $or: [{ "firstName": temp[0] }, { "lastName": temp[0] }] }, (err, foundUser) => {
+        if (err) {
+            console.log(err)
+        } else {
+            res.render('searchResults', { user: foundUser })
+        }
+    })
+});
+
+app.get('/course/:id', function(req, res) {
+    res.render('coursePlayer')
 })
 
 
@@ -168,12 +195,14 @@ io.on('connection', socket => {
                 socket.join(user.room);
                 // console.log("from app .js " + getOldMessage(user));
                 getOldMessage(user).then(message => {
+                    console.log(message)
                     io.to(user.id).emit('getOldMessage', message)
                 });
             } else {
                 socket.join(user.room);
                 getOldMessage(user).then(message => {
                     if (message !== null) {
+                        console.log(message)
                         io.to(user.id).emit('getOldMessage', message)
                     }
                 });
@@ -202,7 +231,9 @@ io.on('connection', socket => {
     socket.on('chatMessage', msg => {
         const user = getCurrentUser(socket.id);
         var notify = formatNotification(user, msg);
-        io.to(user.room).emit('message', formatMessage(user, msg));
+        var message = formatMessage(user, msg);
+        socket.to(user.room).emit('message', message);
+        io.to(socket.id).emit('messageSelf', message);
         if (!checkUser(user)) {
             io.to(user.user2).emit('notifyUser', notify);
         }
@@ -228,11 +259,18 @@ io.on('connection', socket => {
     socket.emit('getTeamUser', getTeamUser());
     socket.on('teamChat', (user) => {
         socket.join(user.room);
+        teamOldMessage(user.room).then(messages => {
+            if (messages !== null) {
+                console.log(messages)
+                io.to(socket.id).emit('teamOldMessage', messages)
+            }
+        });
     })
     socket.on('teamChatMessage', (msg) => {
         const room = getTeamRoom();
-        socket.to(room).emit('printToTeam', printMsg(msg));
-        io.to(socket.id).emit('printToSelf', printMsg(msg));
+        var message = printMsg(msg);
+        socket.to(room).emit('printToTeam', message);
+        io.to(socket.id).emit('printToSelf', message);
     })
 
     // Runs when client disconnects
@@ -254,8 +292,5 @@ io.on('connection', socket => {
     });
 });
 
-console.log("for testing ");
-
 const PORT = process.env.PORT || 3000;
-
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

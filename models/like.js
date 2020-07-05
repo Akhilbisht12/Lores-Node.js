@@ -8,5 +8,5 @@ var likeSchema = mongoose.Schema({
         }
     }
 });
-
+likeSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("likes", likeSchema);

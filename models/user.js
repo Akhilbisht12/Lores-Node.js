@@ -1,24 +1,50 @@
 var mongoose = require("mongoose")
 passportLocalMongoose = require("passport-local-mongoose");
 
-var UserSchema = new mongoose.Schema({
+var UserSchema = mongoose.Schema({
     username: String,
-    password: String,  
-      resetPasswordToken: String,
+    password: String,
+    resetPasswordToken: String,
     resetPasswordExpires: Date,
     image: {
         type: String,
-        default: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+        default: "uploads/loresuser.jpg"
     },
     email: String,
     firstName: String,
     lastName: String,
     team: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "team"
-    }]
+        ref: "team",
+        autopopulate : true
+    }],
+    notification: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "notification"
+    }],
+    messageNotification: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "messageNotification",
+        autopopulate : true
+    }],
+    earning: {
+        type: Number,
+        default: 0
+    },
+    followers: {
+        type: Number,
+        default: 0
+    },
+    loresPoints: {
+        type: Number,
+        default: 0
+    },
+    loresCredits: {
+        type: Number,
+        default: 0
+    }
 });
 
 UserSchema.plugin(passportLocalMongoose);
-
+UserSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("User", UserSchema);

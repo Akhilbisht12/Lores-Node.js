@@ -1,5 +1,5 @@
 .imgContainer img {
-    height: 12rem;
+    height: 15rem;
     width: 100%;
 }
 
@@ -13,4 +13,22 @@
 
 .itemImage {
     height: 17rem;
+}
+
+.likeButton{
+    border: none;
+    background: none;
+    color: blue;
+    box-shadow: none;
+    outline: none;
+    margin: 0 5px;
+}
+
+.likedButton{
+    border: none;
+    background: none;
+    color: red;
+    box-shadow: none;
+    outline: none;
+    margin: 0 5px;
 }
