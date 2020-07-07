@@ -10,31 +10,61 @@
                         <div>
                             <img class="profileImage w-50" src="/<%=currentUser.image%>" alt="">
                         </div>
+                       
+                    </div>
+                    <div class="form-group">
                         <div>
                             <i style="margin: -10px;" class="fas fa-camera "><input type="file" name="image"></i>
-                            <input type="submit">
+                           
                         </div>
                     </div>
                     <!-- username -->
                     <div class="form-group">
                         <label for="exampleInputEmail1">Username</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <input type="text" name="username" value="<%=currentUser.username %>" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                         <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
                     </div>
                     <!-- firstname -->
                     <div class="form-group">
                         <label for="exampleInputPassword1">First Name</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1">
+                        <input type="text"  name="firstName" value="<%=currentUser.firstName %>" class="form-control" id="exampleInputPassword1">
                     </div>
                     <!-- lastname -->
                     <div class="form-group">
                         <label for="exampleInputPassword1">Last Name</label>
-                        <input type="text" class="form-control" id="exampleInputPassword1">
+                        <input type="text" name="lastName" value="<%=currentUser.lastName %>" class="form-control" id="exampleInputPassword1">
                     </div>
                     <!-- bio -->
                     <div class="form-group">
                         <label for="exampleInputPassword1">Bio</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <textarea class="form-control" name="bio"  id="exampleFormControlTextarea1" rows="3"><%=currentUser.bio %></textarea>
+                    </div>
+                    <!-- highlight -->
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">tag/highlightwork</label>
+                        <input type="text" name="highlightwork" value="<%=currentUser.highlightwork %>" class="form-control" id="exampleInputPassword1">
+                    </div>
+                         <!-- skills -->
+                         <div class="form-group">
+                            <label for="exampleInputPassword1">skills</label>
+                            <input type="text" name="skills" value="<%=currentUser.skills %>" class="form-control" id="exampleInputPassword1">
+                        </div>
+                          <!-- experience -->
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">experience</label>
+                        <input type="text" name="experience" value="<%=currentUser.experience %>" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    
+                      <!-- langugages -->
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">languages</label>
+                        <input type="text" name="languages" value="<%=currentUser.languages %>" class="form-control" id="exampleInputPassword1">
+                    </div>
+                   
+                       <!--   nationality -->
+                       <div class="form-group">
+                        <label for="exampleInputPassword1">nationality</label>
+                        <input type="text" name="nationality" value="<%=currentUser.nationality %>" class="form-control" id="exampleInputPassword1">
                     </div>
 
                     <div class="form-group form-check">

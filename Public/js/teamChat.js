@@ -21,6 +21,7 @@ socket.on('teamOldMessage', (team) => {
 })
 
 
+
 teamChatForm.addEventListener('submit', e => {
     console.log('clicked')
     e.preventDefault();

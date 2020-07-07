@@ -22,8 +22,8 @@
                         <div class="h5">
                             <%= currentUser.username %>
                         </div>
-                        <div class="h7 text-muted">Fullname</div>
-                        <div class="h7">Developer of web applications, JavaScript, PHP, Java, Python, Ruby, Java, Node.js, etc.
+                        <div class="h7 text-muted"> <%= currentUser.firstName %>  <%= currentUser.lastName %></div>
+                        <div class="h7"> <%= currentUser. highlightwork %> ,<%= currentUser.skills %> PHP, Java, Python, Ruby, Java, Node.js, etc.
                         </div>
                     </div>
                     <ul class="list-group list-group-flush">
@@ -42,7 +42,7 @@
             <div class="col-md-6 gedf-main">
 
                 <!--- \\\\\\\Post-->
-                <form action="/feed" method="POST" enctype="multipart/form-data">
+                <form action="/feed/page" method="POST" enctype="multipart/form-data">
                     <div class="card gedf-card">
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -265,6 +265,40 @@
                             </div>
                         </div>
                         <!-- Post /////-->
+
+
+                        <nav class="blog-pagination justify-content-center d-flex">
+                            <% if (pages > 0) { %>
+                            <ul class="pagination">
+                                <% if (current == 1) { %>
+                                    <li class="disabled page-item"><a class="page-link">First</a></li>
+                                <% } else { %>
+                                    <li><a href="/feed/page/1" class="page-link">First</a></li>
+                                <% } %>
+                                <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                                <% if (i !== 1) { %>
+                                    <li class="disabled page-item"><a class="page-link">...</a></li>
+                                <% } %>
+                                <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                                    <% if (i == current) { %>
+                                        <li class="active page-item"><a class="page-link"><%= i %></a></li>
+                                    <% } else { %>
+                                        <li><a href="/feed/page/<%= i %>" class="page-link"><%= i %></a></li>
+                                    <% } %>
+                                    <% if (i == Number(current) + 4 && i < pages) { %>
+                                        <li class="disabled page-item" ><a class="page-link">...</a></li>
+                                    <% } %>
+                                <% } %>
+                                <% if (current == pages) { %>
+                                    <li class="disabled page-item"><a class="page-link">Last</a></li>
+                                <% } else { %>
+                                    <li><a class="page-link" href="/feed/page/<%= pages %>">Last</a></li>
+                                <% } %>
+                            </ul>
+                        <% } %>
+                      
+                        </nav>
+
 
 
 

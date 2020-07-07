@@ -20,6 +20,9 @@ marketRoutes = require("./routes/market");
 teamRoutes = require('./routes/team');
 nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
+var cookieParser = require('cookie-parser');
+
+var cookieSession = require('cookie-session')
 
 // variables for socket.io
 const path = require('path');
@@ -71,9 +74,14 @@ const botName = {
 
 
 
+//<<<<<<< HEAD
+mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+//=======
 // Connection Database
 mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
 // mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+//>>>>>>> b1c8cf2477276d4731a8c6bc598488a2834df1d1
 mongoose.connection.once("open", function() {
     console.log("Database connection Successful");
 })
@@ -88,7 +96,10 @@ app.set("view engine", "ejs")
 app.use(express.static(path.join(__dirname, 'Public')));
 app.set('Views', '/app/views');
 app.use('/uploads', express.static('uploads'));
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+
 app.use(expressSanitizer());
 
 // requiring routes
@@ -99,7 +110,27 @@ app.use(marketRoutes);
 app.use(teamRoutes);
 
 
+ /*
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1']
+}))
 
+
+
+//google login
+app.get('/google',
+  passport.authenticate('google', { scope: ['profile','email'] }));
+
+
+app.get('/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+  
+    res.redirect('/dashboard');
+  });
+ 
+ */
 
 
 // Setting Up routes
@@ -134,15 +165,16 @@ app.get("/profile/:id/edit", function(req, res) {
 })
 
 app.put("/profile/:id", upload.single('image'), function(req, res) {
-    var img = {
-        image: req.file.path
-    }
-    console.log(req.body.image);
-    User.findByIdAndUpdate(req.params.id, img, function(err, updatedProfile) {
+   // var img = {
+    //    image: req.file.path
+  //  }
+    
+    User.findByIdAndUpdate(req.params.id, req.body, function(err, updatedProfile) {
         if (err) {
             console.log(err);
             res.redirect("back");
         } else {
+            console.log('rew.body',updatedProfile);
             res.redirect("back");
         }
     })
