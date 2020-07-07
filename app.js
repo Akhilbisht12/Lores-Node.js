@@ -21,9 +21,6 @@ teamRoutes = require('./routes/team');
 nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 
-// importing algo's
-const engagementAlgos = require('./algorithms/engagement');
-
 // variables for socket.io
 const path = require('path');
 const http = require('http');
@@ -57,6 +54,7 @@ const {
     teamOldMessage
 } = require('./utils/teamChat')
 const engagementAlgo = require("./algorithms/engagement")
+const user = require("./models/user")
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -71,8 +69,7 @@ const botName = {
 // seeding Database
 // seedDB();
 
-// running alogos
-engagementAlgos();
+
 
 // Connection Database
 mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
@@ -174,6 +171,16 @@ app.post('/search', function(req, res) {
 
 app.get('/course/:id', function(req, res) {
     res.render('coursePlayer')
+})
+
+app.get('/leaderboard', function(req, res){
+    user.find({}).sort({ loresPoints: -1 }).exec(function(err, users){
+    if(err){
+            console.log(err);
+        }else{
+            res.render('leaderBoard', {users : users});
+        }
+    })
 })
 
 

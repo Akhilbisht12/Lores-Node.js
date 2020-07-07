@@ -20,7 +20,8 @@ var UserSchema = mongoose.Schema({
     }],
     notification: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: "notification"
+        ref: "notification",
+        autopopulate : true
     }],
     messageNotification: [{
         type: mongoose.Schema.Types.ObjectId,

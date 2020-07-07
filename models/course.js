@@ -5,6 +5,7 @@ var courseSchema = mongoose.Schema({
     desc: String,
     author: String,
     playlist: [{
+        name: String,
         embed: String
     }],
     category: String,

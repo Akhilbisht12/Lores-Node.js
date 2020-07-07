@@ -5,6 +5,8 @@ var notificationSchema = mongoose.Schema({
     time: Object,
     date: Object,
     link: String,
+    type : String,
+    username: String
 })
 
 module.exports = mongoose.model('notification', notificationSchema);
