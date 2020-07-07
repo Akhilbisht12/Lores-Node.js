@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var mongoosePaginate = require('mongoose-paginate');
 
 feedPostSchema = mongoose.Schema({
     // UserId: String,
@@ -23,5 +24,6 @@ feedPostSchema = mongoose.Schema({
     }],
     engagement :Array
 });
+feedPostSchema.plugin(mongoosePaginate);
 feedPostSchema.plugin(require('mongoose-autopopulate'));
 module.exports = mongoose.model("feedPost", feedPostSchema);

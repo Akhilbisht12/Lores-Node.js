@@ -15,21 +15,45 @@ const engagementAlgos = require('../algorithms/engagement');
 router.use(methodOverride("_method"));
 
 // feed Routes
-router.get("/feed", isLoggedIn, function(req, res) {
+router.get("/feed/page", isLoggedIn, function(req, res) {
     // running alogos
     engagementAlgos();
-    feedPost.find({}, function(err, feeds) {
-        if (err) {
-            console.log(err);
-        } else {
-            User
-            res.render("feed", { feeds: feeds });
-        }
-    }).sort( { engagement: -1 })
+    var query   = {};
+    var options = {
+        offset:   1, 
+        limit:    1,
+        sort:     { engagement: -1 },
+    };
+    feedPost.paginate(query,options).then(function(result){
+
+            res.render("feed",{ feeds: result.docs,
+                current: result.offset,
+                pages: Math.ceil( result.total/result.limit) });
+        
+    })
+});
+// feed Routes
+router.get("/feed/page/:page", isLoggedIn, function(req, res) {
+    // running alogos
+    engagementAlgos();
+    var perPage = 1;
+    var page = req.params.page || 1;
+
+    feedPost.find({})
+           .skip((perPage * page) - perPage)
+           .limit(perPage).exec(function(err,data){
+                if(err) throw err;
+                feedPost.countDocuments({}).sort( { engagement: -1 }).exec((err,count)=>{          
+                    res.render("feed", { feeds: data,
+                    current: page,
+                    pages: Math.ceil(count / perPage) });
+                    
+                  });
+    })
 });
 
 // feedPost route
-router.post("/feed", upload.single('postImage'), function(req, res) {
+router.post("/feed/page", upload.single('postImage'), function(req, res) {
     console.log(req.file);
     feedPost.create({
             feedText: req.body.postText,
@@ -100,7 +124,7 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect("\login");
+    res.redirect('/login')
 }
 
 function isUserPost(req, res, next) {
