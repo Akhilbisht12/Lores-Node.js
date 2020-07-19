@@ -16,21 +16,24 @@ methodOverride = require("method-override")
 feedRoutes = require("./routes/feeds")
 commentRoutes = require("./routes/comments")
 authenticationRoutes = require("./routes/authentication")
-marketRoutes = require("./routes/market");
-teamRoutes = require('./routes/team');
-nodemailer = require('nodemailer');
-const bcrypt = require('bcryptjs');
+marketRoutes = require("./routes/market")
+teamRoutes = require('./routes/team')
+nodemailer = require('nodemailer')
+bcrypt = require('bcryptjs')
+cookieParser = require('cookie-parser')
+cookieSession = require('cookie-session');
 
-// variables for socket.io
-const path = require('path');
-const http = require('http');
-const socketio = require('socket.io');
+var app = express();
+
+// importing algo's
+const engagementAlgos = require('./algorithms/engagement');
 
 // importing socket functions from utils
 const {
     formatMessage,
     getOldMessage
 } = require('./utils/messages');
+
 const {
     userJoin,
     getCurrentUser,
@@ -53,43 +56,30 @@ const {
     getTeamRoom,
     teamOldMessage
 } = require('./utils/teamChat')
-const engagementAlgo = require("./algorithms/engagement")
+
 const user = require("./models/user")
-const app = express();
+// Importing socket funcitons end
+
+// variables for socket.io
+const path = require('path');
+const http = require('http');
+const socketio = require('socket.io');
 const server = http.createServer(app);
 const io = socketio(server);
 
 // Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
-
-const botName = {
-    username: 'Lores Bot'
-};
-
-// seeding Database
-// seedDB();
-
-
-
-// Connection Database
-mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
-// mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connection.once("open", function() {
-    console.log("Database connection Successful");
-})
-
-
+app.use(express.static(__dirname + '/public'));
 
 
 //  Installing these modules
-
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs")
-app.use(express.static(path.join(__dirname, 'Public')));
-app.set('Views', '/app/views');
-app.use('/uploads', express.static('uploads'));
+// app.set('Views', '/app/views');
+// app.use('/uploads', express.static('uploads'));
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressSanitizer());
+
 
 // requiring routes
 app.use(feedRoutes);
@@ -98,12 +88,40 @@ app.use(authenticationRoutes);
 app.use(marketRoutes);
 app.use(teamRoutes);
 
+// Database Connection
+mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
+//mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connection.once("open", function() {
+    console.log("Database connection Successful");
+})
+
+ /*
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1']
+}))
 
 
+
+//google login
+app.get('/google',
+  passport.authenticate('google', { scope: ['profile','email'] }));
+
+
+app.get('/google/callback', 
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+  
+    res.redirect('/dashboard');
+  });
+ 
+ */
+
+// algorithm functions
+setInterval(engagementAlgos, 30*60000);
 
 
 // Setting Up routes
-
 app.get("/", function(req, res) {
     res.render("index");
 });
@@ -113,43 +131,12 @@ app.get("/dashboard", function(req, res) {
     sendNotificationUser(req.user);
 })
 
-app.get("/profile/:id", function(req, res) {
-    user.findById(req.params.id, function(err, user) {
-        if (err) {
-            console.log(err);
-            res.redirect("back");
-        } else {
-            res.render("profile", { user: user });
-        }
-    })
-})
-
-
 app.get("/courses", function(req, res) {
     res.render("courses");
 })
 
-app.get("/profile/:id/edit", function(req, res) {
-    res.render("profileEdit")
-})
-
-app.put("/profile/:id", upload.single('image'), function(req, res) {
-    var img = {
-        image: req.file.path
-    }
-    console.log(req.body.image);
-    User.findByIdAndUpdate(req.params.id, img, function(err, updatedProfile) {
-        if (err) {
-            console.log(err);
-            res.redirect("back");
-        } else {
-            res.redirect("back");
-        }
-    })
-})
-
-app.get("/mindex", function(req, res) {
-    res.render("index2");
+app.get('/course/:id', function(req, res) {
+    res.render('coursePlayer')
 })
 
 app.get("/chat", function(req, res) {
@@ -168,10 +155,6 @@ app.post('/search', function(req, res) {
         }
     })
 });
-
-app.get('/course/:id', function(req, res) {
-    res.render('coursePlayer')
-})
 
 app.get('/leaderboard', function(req, res){
     user.find({}).sort({ loresPoints: -1 }).exec(function(err, users){
@@ -231,7 +214,7 @@ io.on('connection', socket => {
 
     // Listen for chatMessage
     socket.on('chatMessage', msg => {
-        var user = getCurrentUser(socket.id);
+        const user = getCurrentUser(socket.id);
         var notify = formatNotification(user, msg);
         var message = formatMessage(user, msg);
         socket.to(user.room).emit('message', message);
