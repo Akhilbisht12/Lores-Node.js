@@ -19,15 +19,16 @@ authenticationRoutes = require("./routes/authentication")
 marketRoutes = require("./routes/market");
 teamRoutes = require('./routes/team');
 nodemailer = require('nodemailer');
-const bcrypt = require('bcryptjs');
-var cookieParser = require('cookie-parser');
+bcrypt = require('bcryptjs');
+cookieParser = require('cookie-parser');
+cookieSession = require('cookie-session')
 
-var cookieSession = require('cookie-session')
+const app = express();
+const path = require('path');
 
 // variables for socket.io
-const path = require('path');
-const http = require('http');
-const socketio = require('socket.io');
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 
 // importing socket functions from utils
 const {
@@ -57,31 +58,14 @@ const {
     teamOldMessage
 } = require('./utils/teamChat')
 const engagementAlgo = require("./algorithms/engagement")
-const user = require("./models/user")
-const app = express();
-const server = http.createServer(app);
-const io = socketio(server);
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-const botName = {
-    username: 'Lores Bot'
-};
 
-// seeding Database
-// seedDB();
-
-
-
-//<<<<<<< HEAD
-mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
-//mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
-//=======
 // Connection Database
-mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
-// mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
-//>>>>>>> b1c8cf2477276d4731a8c6bc598488a2834df1d1
+// mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once("open", function() {
     console.log("Database connection Successful");
 })
@@ -93,7 +77,6 @@ mongoose.connection.once("open", function() {
 
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs")
-app.use(express.static(path.join(__dirname, 'Public')));
 app.set('Views', '/app/views');
 app.use('/uploads', express.static('uploads'));
 app.use(cookieParser());
@@ -327,4 +310,4 @@ io.on('connection', socket => {
 });
 
 const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
