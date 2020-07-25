@@ -61,7 +61,7 @@ const {
 const engagementAlgos = require("./algorithms/engagement")
 
 // Set static folder
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'Public')));
 
 
 // Connection Database
