@@ -16,7 +16,6 @@ methodOverride = require("method-override")
 feedRoutes = require("./routes/feeds")
 commentRoutes = require("./routes/comments")
 authenticationRoutes = require("./routes/authentication")
-<<<<<<< HEAD
 marketRoutes = require("./routes/market");
 teamRoutes = require('./routes/team');
 nodemailer = require('nodemailer');
@@ -30,19 +29,6 @@ const path = require('path');
 // variables for socket.io
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
-=======
-marketRoutes = require("./routes/market")
-teamRoutes = require('./routes/team')
-nodemailer = require('nodemailer')
-bcrypt = require('bcryptjs')
-cookieParser = require('cookie-parser')
-cookieSession = require('cookie-session');
-
-var app = express();
-
-// importing algo's
-const engagementAlgos = require('./algorithms/engagement');
->>>>>>> 0e8ca36085a1bf6752020e2a40b4b53c5306e742
 
 // importing socket functions from utils
 const {
@@ -72,8 +58,7 @@ const {
     getTeamRoom,
     teamOldMessage
 } = require('./utils/teamChat')
-<<<<<<< HEAD
-const engagementAlgo = require("./algorithms/engagement")
+const engagementAlgos = require("./algorithms/engagement")
 
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
@@ -87,33 +72,13 @@ mongoose.connection.once("open", function() {
 })
 
 
-=======
-
-const user = require("./models/user")
-// Importing socket funcitons end
-
-// variables for socket.io
-const path = require('path');
-const http = require('http');
-const socketio = require('socket.io');
-const server = http.createServer(app);
-const io = socketio(server);
-
-// Set static folder
-app.use(express.static(__dirname + '/public'));
->>>>>>> 0e8ca36085a1bf6752020e2a40b4b53c5306e742
 
 
 //  Installing these modules
 app.use(methodOverride("_method"));
 app.set("view engine", "ejs")
-<<<<<<< HEAD
 app.set('Views', '/app/views');
 app.use('/uploads', express.static('uploads'));
-=======
-// app.set('Views', '/app/views');
-// app.use('/uploads', express.static('uploads'));
->>>>>>> 0e8ca36085a1bf6752020e2a40b4b53c5306e742
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressSanitizer());
@@ -126,34 +91,6 @@ app.use(authenticationRoutes);
 app.use(marketRoutes);
 app.use(teamRoutes);
 
-// Database Connection
-mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
-//mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connection.once("open", function() {
-    console.log("Database connection Successful");
-})
-
- /*
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1']
-}))
-
-
-
-//google login
-app.get('/google',
-  passport.authenticate('google', { scope: ['profile','email'] }));
-
-
-app.get('/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
-  
-    res.redirect('/dashboard');
-  });
- 
- */
 
 // algorithm functions
 setInterval(engagementAlgos, 30*60000);
