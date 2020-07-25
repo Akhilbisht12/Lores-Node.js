@@ -12,6 +12,7 @@ function engagementAlgo(){
             })
         }
     })
+    console.log('algos refreshed')
 }
 
 module.exports = engagementAlgo;

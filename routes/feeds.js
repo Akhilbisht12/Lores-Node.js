@@ -21,7 +21,7 @@ router.get("/feed/page", isLoggedIn, function(req, res) {
     var query   = {};
     var options = {
         offset:   1, 
-        limit:    1,
+        limit:    5,
         sort:     { engagement: -1 },
     };
     feedPost.paginate(query,options).then(function(result){
