@@ -1,10 +1,9 @@
 var express = require("express");
+const item = require("../models/item");
 router = express.Router();
 methodOverride = require("method-override")
 upload = require("../multer");
 user = require("../models/user")
-item = require("../models/item")
-
 router.use(methodOverride("_method"));
 
 router.get("/market", function(req, res) {
@@ -23,7 +22,7 @@ router.get("/market/new", function(req, res) {
 });
 
 var cpUpload = upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 },
- { name: 'image3', maxCount: 1 }, { name: 'image4', maxCount: 1 }])
+ { name: 'image3', maxCount: 1 }, { name: 'image4', maxCount: 1 },{ name: 'zipfile', maxCount: 1 }])
  
 router.post("/market/:id/new", cpUpload, function(req, res) {
     item.create({
@@ -34,9 +33,10 @@ router.post("/market/:id/new", cpUpload, function(req, res) {
             image1: req.files['image1'][0].path,
             image2: req.files['image2'][0].path,
             image3: req.files['image3'][0].path,
-            image4: req.files['image4'][0].path
-
+            image4: req.files['image4'][0].path,
+            zipfile:req.files['zipfile'][0].path
         },
+      
         points: req.body.points,
         category: req.body.category,
         author: {
@@ -77,13 +77,14 @@ router.delete("/market/:id", isUserItem, function(req, res) {
     })
 })
 
+//download zip file
 router.get("/download/:id", function(req, res) {
     item.findById(req.params.id, function(err, item) {
         if (err) {
             console.log(log);
             res.redirect("back")
         } else {
-            var file = item.images.image1;
+            var file = item.images.zipfile;
             res.download(file);
         }
     })
@@ -139,5 +140,19 @@ function isUserItem(req, res, next) {
         res.redirect("back");
     }
 }
+
+
+router.get('/market/item_category/:cat/',(req,res)=>{
+        console.log('get')
+        item.find({category:req.params.cat}).exec(function(err,foundcategory){
+
+        if(err)console.log(err,'error category me')
+ 
+        else {
+         console.log('else')
+            res.send(foundcategory);
+        }
+        })
+});
 
 module.exports = router;

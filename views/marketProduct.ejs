@@ -49,7 +49,7 @@
 
                             <div class="d-flex justify-content-left">
                                 <form action="/download/<%=item._id%>" method="GET" class="mr-2">
-                                    <button class="btn btn-primary btn-md my-0 p" type="submit">Download</button>
+                                    <button class="btn btn-primary btn-md my-0 p" type="submit">Download zipfile</button>
                                 </form>
                                 <%if(item.author.id.equals(currentUser._id)){%>
                                     <form action="/market/<%=item._id%>?_method=DELETE" method="POST" class="mr-2">
