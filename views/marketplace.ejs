@@ -181,7 +181,9 @@
 
                         </ul>
                         <!-- Links -->
-
+                        <div class="container">
+                            <a href="/market/new"><button class="btn btn-warning">Add New Item</button></a>  
+                        </div>
                         <form class="form-inline">
                             <div class="md-form my-0">
                                 <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
@@ -191,6 +193,43 @@
                     <!-- Collapsible content -->
 
                 </nav>
+
+                <aside class="single_sidebar_widget post_category_widget">
+                    <h4 class="widget_title">Category</h4>
+                    <ul class="list cat-list ">
+                        <form class="catbutton" action="#">
+                            <li>
+                                <a href="/market/item_category/Art gallery/" type="submit" class="d-flex cattype">
+                                    <p id="catid">Art gallery</p>
+                                   
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/market/item_category/art/" type="submit" class="d-flex cattype">
+                                    <p id="catid">art</p>
+                                
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/market/item_category/gadgets/" class="d-flex">
+                                    <p class="cattype">gadgets</p>
+                              
+                                </a>
+                            </li>
+                          
+                            
+                            <li>
+                                <a href="#" class="d-flex">
+                                    <p>Health Care (21)</p>
+                                    <p>09</p>
+                                </a>
+                            </li>
+                        </form>
+                        
+                    </ul>
+                </aside>
+                
+              
                 <!--/.Navbar-->
                 <span class="navbar-brand">ArtWork</span>
                 <!--Section: Products v.3-->
@@ -199,8 +238,8 @@
                     <!--Grid row-->
                     <div class="row wow fadeIn">
                         <% item.forEach(function(item){%>
-                            <% if(item.category === "art"){%>
-                                <!--Grid column-->
+                            <% if(item.category === "Hand made"){%>
+                             
                                 <div class="col-lg-3 col-md-6 mb-4">
 
                                     <!--Card-->
@@ -245,8 +284,6 @@
                                 <%}%>
                                     <%})%>
                                         <!--Grid column-->
-
-                                        <!--Grid column-->
                                         <div class="col-lg-3 col-md-6 mb-4">
 
                                             <!--Card-->
@@ -284,220 +321,109 @@
                                             <!--Card-->
 
                                         </div>
-                                        <!--Grid column-->
-
-                                        <!--Grid column-->
-                                        <div class="col-lg-3 col-md-6 mb-4">
-
-                                            <!--Card-->
-                                            <div class="card">
-
-                                                <!--Card image-->
-                                                <div class="view overlay">
-                                                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14.jpg" class="card-img-top" alt="">
-                                                    <a>
-                                                        <div class="mask rgba-white-slight"></div>
-                                                    </a>
-                                                </div>
-                                                <!--Card image-->
-
-                                                <!--Card content-->
-                                                <div class="card-body text-center">
-                                                    <!--Category & Title-->
-                                                    <a href="" class="grey-text">
-                                                        <h5>Sport wear</h5>
-                                                    </a>
-                                                    <h5>
-                                                        <strong>
-                    <a href="" class="dark-grey-text">Grey blouse
-                      <span class="badge badge-pill primary-color">bestseller</span>
-                    </a>
-                  </strong>
-                                                    </h5>
-
-                                                    <h4 class="font-weight-bold blue-text">
-                                                        <strong>99$</strong>
-                                                    </h4>
-
-                                                </div>
-                                                <!--Card content-->
-
-                                            </div>
-                                            <!--Card-->
-
-                                        </div>
-                                        <!--Grid column-->
-
-                                        <!--Fourth column-->
-                                        <div class="col-lg-3 col-md-6 mb-4">
-
-                                            <!--Card-->
-                                            <div class="card">
-
-                                                <!--Card image-->
-                                                <div class="view overlay">
-                                                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15.jpg" class="card-img-top" alt="">
-                                                    <a>
-                                                        <div class="mask rgba-white-slight"></div>
-                                                    </a>
-                                                </div>
-                                                <!--Card image-->
-
-                                                <!--Card content-->
-                                                <div class="card-body text-center">
-                                                    <!--Category & Title-->
-                                                    <a href="" class="grey-text">
-                                                        <h5>Outwear</h5>
-                                                    </a>
-                                                    <h5>
-                                                        <strong>
-                    <a href="" class="dark-grey-text">Black jacket</a>
-                  </strong>
-                                                    </h5>
-
-                                                    <h4 class="font-weight-bold blue-text">
-                                                        <strong>219$</strong>
-                                                    </h4>
-
-                                                </div>
-                                                <!--Card content-->
-
-                                            </div>
-                                            <!--Card-->
-
-                                        </div>
-                                        <!--Fourth column-->
-
                     </div>
                     <!--Grid row-->
+                    <div class="row wow fadeIn">
+                   <!--Grid column FOR HANDMADE-->
+                   <% item.forEach(function(item){%>
+                    <% if(item.category === "art"){%>
+                     
+                        <div class="col-lg-3 col-md-6 mb-4">
+
+                            <!--Card-->
+                            <div class="card " id="itemCard">
+
+                                <!--Card image-->
+                                <div class="view overlay">
+                                    <img class="itemImage" src="/<%= item.images.image1%>" class="card-img-top" alt="">
+                                    <a href="/market/<%=item._id%>">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </a>
+                                </div>
+                                <!--Card image-->
+
+                                <!--Card content-->
+                                <div class="card-body text-center">
+                                    <!--Category & Title-->
+                                    <a href="/market/<%=item._id%>" class="grey-text">
+                                        <h5>
+                                            <%= item.category%>
+                                        </h5>
+                                    </a>
+                                    <h5>
+                                        <strong>
+                                    <a href="/market/<%=item._id%>" class="dark-grey-text"><%= item.name%>
+                                    <span class="badge badge-pill danger-color">NEW</span>
+                                    </a>
+                                 </strong>
+                                    </h5>
+
+                                    <h4 class="font-weight-bold blue-text">
+                                        <strong><%= item.points%> LP</strong>
+                                    </h4>
+
+                                </div>
+                                <!--Card content-->
+
+                            </div>
+                            <!--Card-->
+
+                        </div>
+                        <%}%>
+                            <%})%>
+                    </div>
+
 
                     <!--Grid row-->
                     <div class="row wow fadeIn">
 
-                        <!--Grid column-->
-                        <div class="col-lg-3 col-md-6 mb-4">
-
-                            <!--Card-->
-                            <div class="card">
-
-                                <!--Card image-->
-                                <div class="view overlay">
-                                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/13.jpg" class="card-img-top" alt="">
-                                    <a>
-                                        <div class="mask rgba-white-slight"></div>
-                                    </a>
-                                </div>
-                                <!--Card image-->
-
-                                <!--Card content-->
-                                <div class="card-body text-center">
-                                    <!--Category & Title-->
-                                    <a href="" class="grey-text">
-                                        <h5>Shirt</h5>
-                                    </a>
-                                    <h5>
-                                        <strong>
-                    <a href="" class="dark-grey-text">Denim shirt
-                      <span class="badge badge-pill danger-color">NEW</span>
-                    </a>
-                  </strong>
-                                    </h5>
-
-                                    <h4 class="font-weight-bold blue-text">
-                                        <strong>120$</strong>
-                                    </h4>
-
-                                </div>
-                                <!--Card content-->
-
-                            </div>
-                            <!--Card-->
-
-                        </div>
-                        <!--Grid column-->
-
-                        <!--Grid column-->
-                        <div class="col-lg-3 col-md-6 mb-4">
-
-                            <!--Card-->
-                            <div class="card">
-
-                                <!--Card image-->
-                                <div class="view overlay">
-                                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/14.jpg" class="card-img-top" alt="">
-                                    <a>
-                                        <div class="mask rgba-white-slight"></div>
-                                    </a>
-                                </div>
-                                <!--Card image-->
-
-                                <!--Card content-->
-                                <div class="card-body text-center">
-                                    <!--Category & Title-->
-                                    <a href="" class="grey-text">
-                                        <h5>Sport wear</h5>
-                                    </a>
-                                    <h5>
-                                        <strong>
-                    <a href="" class="dark-grey-text">Sweatshirt</a>
-                  </strong>
-                                    </h5>
-
-                                    <h4 class="font-weight-bold blue-text">
-                                        <strong>139$</strong>
-                                    </h4>
-
-                                </div>
-                                <!--Card content-->
-
-                            </div>
-                            <!--Card-->
-
-                        </div>
-                        <!--Grid column-->
-
-                        <!--Grid column-->
-                        <div class="col-lg-3 col-md-6 mb-4">
-
-                            <!--Card-->
-                            <div class="card">
-
-                                <!--Card image-->
-                                <div class="view overlay">
-                                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/15.jpg" class="card-img-top" alt="">
-                                    <a>
-                                        <div class="mask rgba-white-slight"></div>
-                                    </a>
-                                </div>
-                                <!--Card image-->
-
-                                <!--Card content-->
-                                <div class="card-body text-center">
-                                    <!--Category & Title-->
-                                    <a href="" class="grey-text">
-                                        <h5>Sport wear</h5>
-                                    </a>
-                                    <h5>
-                                        <strong>
-                    <a href="" class="dark-grey-text">Grey blouse
-                      <span class="badge badge-pill primary-color">bestseller</span>
-                    </a>
-                  </strong>
-                                    </h5>
-
-                                    <h4 class="font-weight-bold blue-text">
-                                        <strong>99$</strong>
-                                    </h4>
-
-                                </div>
-                                <!--Card content-->
-
-                            </div>
-                            <!--Card-->
-
-                        </div>
-                        <!--Grid column-->
-
+                                        <!--Grid column FOR HANDMADE-->
+                                        <% item.forEach(function(item){%>
+                                            <% if(item.category === "gadgets"){%>
+                                          
+                                                <div class="col-lg-3 col-md-6 mb-4">
+                
+                                                    <!--Card-->
+                                                    <div class="card " id="itemCard">
+                
+                                                        <!--Card image-->
+                                                        <div class="view overlay">
+                                                            <img class="itemImage" src="/<%= item.images.image1%>" class="card-img-top" alt="">
+                                                            <a href="/market/<%=item._id%>">
+                                                                <div class="mask rgba-white-slight"></div>
+                                                            </a>
+                                                        </div>
+                                                        <!--Card image-->
+                
+                                                        <!--Card content-->
+                                                        <div class="card-body text-center">
+                                                            <!--Category & Title-->
+                                                            <a href="/market/<%=item._id%>" class="grey-text">
+                                                                <h5>
+                                                                    <%= item.category%>
+                                                                </h5>
+                                                            </a>
+                                                            <h5>
+                                                                <strong>
+                                                            <a href="/market/<%=item._id%>" class="dark-grey-text"><%= item.name%>
+                                                            <span class="badge badge-pill danger-color">NEW</span>
+                                                            </a>
+                                                         </strong>
+                                                            </h5>
+                
+                                                            <h4 class="font-weight-bold blue-text">
+                                                                <strong><%= item.points%> LP</strong>
+                                                            </h4>
+                
+                                                        </div>
+                                                        <!--Card content-->
+                
+                                                    </div>
+                                                    <!--Card-->
+                
+                                                </div>
+                                                <%}%>
+                                                    <%})%>
                         <!--Fourth column-->
                         <div class="col-lg-3 col-md-6 mb-4">
 
@@ -517,7 +443,7 @@
                                 <div class="card-body text-center">
                                     <!--Category & Title-->
                                     <a href="" class="grey-text">
-                                        <h5>Outwear</h5>
+                                        <h5>gadgets</h5>
                                     </a>
                                     <h5>
                                         <strong>
@@ -538,7 +464,7 @@
                         </div>
                         <!--Fourth column-->
 
-                    </div>
+                    </div>  
                     <!--Grid row-->
 
                 </section>

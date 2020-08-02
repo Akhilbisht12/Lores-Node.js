@@ -22,7 +22,7 @@ nodemailer = require('nodemailer');
 const bcrypt = require('bcryptjs');
 var cookieParser = require('cookie-parser');
 
-var cookieSession = require('cookie-session')
+
 
 // variables for socket.io
 const path = require('path');
@@ -140,8 +140,9 @@ app.get("/", function(req, res) {
 });
 
 app.get("/dashboard", function(req, res) {
+    console.log('dashboard')
     res.render("dashboard", { currentUser: req.user });
-    sendNotificationUser(req.user);
+   // sendNotificationUser(req.user);
 })
 
 app.get("/profile/:id", function(req, res) {
@@ -156,19 +157,20 @@ app.get("/profile/:id", function(req, res) {
 })
 
 
+
 app.get("/courses", function(req, res) {
     res.render("courses");
 })
 
 app.get("/profile/:id/edit", function(req, res) {
+
     res.render("profileEdit")
 })
 
 app.put("/profile/:id", upload.single('image'), function(req, res) {
    // var img = {
     //    image: req.file.path
-  //  }
-    
+  //  } 
     User.findByIdAndUpdate(req.params.id, req.body, function(err, updatedProfile) {
         if (err) {
             console.log(err);
@@ -206,10 +208,13 @@ app.get('/course/:id', function(req, res) {
 })
 
 app.get('/leaderboard', function(req, res){
+    console.log('chceking')
     user.find({}).sort({ loresPoints: -1 }).exec(function(err, users){
     if(err){
             console.log(err);
         }else{
+            console.log(users)
+
             res.render('leaderBoard', {users : users});
         }
     })

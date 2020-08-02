@@ -1,4 +1,5 @@
 multer = require("multer");
+const path = require('path');
 
 
 // Multer Configuration
@@ -12,12 +13,15 @@ var storage = multer.diskStorage({
 });
 
 var imageFilter = function(req, file, cb) {
-
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    var ext = path.extname(file.originalname);
+    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' ||  ext === '.zip') {
         // accept file
+        console.log('multer accept')
+
         cb(null, true);
     } else {
-        // reject file
+        // reject filecon
+        console.log('multer declined')
         cb(null, false);
     }
 
@@ -28,7 +32,7 @@ var imageFilter = function(req, file, cb) {
 var upload = multer({
     fileFilter: imageFilter,
     storage: storage,
-    limits: { fileSize: 1024 * 1024 * 5 }
+    //limits: { fileSize: 1024 * 1024 * 5 }
 });
 
 module.exports = upload;

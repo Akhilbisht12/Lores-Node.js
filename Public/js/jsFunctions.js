@@ -31,4 +31,25 @@ $(function(){
             }
         })
     })
+
+
+})
+
+$(function () {
+    $('.catbutton').on('submit', function(e){
+        console.log('clicked')
+        e.preventDefault();
+        //var cat =e.getElementById("catid").innerText
+
+        console.log('han')
+        $.ajax({
+            type: 'GET',
+            url: `/${cat}/`,
+            success: function (data) {
+             
+                //console.log('somu',data)
+                // use the data
+            }
+        })
+    })
 })

@@ -42,7 +42,22 @@ passport.deserializeUser(User.deserializeUser());
 // sending user information to every route
 router.use(function(req, res, next) {
     res.locals.currentUser = req.user;
+    //res.locals.courseslocal=courseslocalfun()
     next();
 });
+
+/*
+function courseslocalfun(){
+  User.find({}).exec(function(err,data){
+  if(err) console.log(err)
+   else{
+  console.log(data,'data')
+
+  }
+  }
+  )
+
+}
+*/
 
 module.exports = passport;
