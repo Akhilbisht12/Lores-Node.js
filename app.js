@@ -65,8 +65,8 @@ app.use(express.static(path.join(__dirname, 'Public')));
 
 
 // Connection Database
-// mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb://localhost/loresUsers", { useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect("mongodb+srv://akhil:Akhil@8979@lores-owlah.mongodb.net/<dbname>?retryWrites=true&w=majority", { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.connection.once("open", function() {
     console.log("Database connection Successful");
 })
@@ -146,6 +146,7 @@ app.get('/leaderboard', function(req, res){
 // Run when client connects
 io.on('connection', socket => {
     socket.on('joinRoom', ({ username, room }) => {
+        var startTime = Date.now();
         const user = userJoin(socket.id, username, room);
         if (username) {
             const roomCheck = user.room;
@@ -167,6 +168,7 @@ io.on('connection', socket => {
                     }
                 });
             }
+            console.log('chat load time' + (Date.now() - startTime) + 'ms')
         }
 
         // Welcome current user

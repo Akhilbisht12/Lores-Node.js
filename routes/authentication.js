@@ -40,44 +40,16 @@ router.get("/login", function(req, res) {
 })
 
 // login logic route
-router.post('/login', function(req, res, next) {
-    // simple mail for welcoming
-    /*
-  var email =req.body.email;
-    var transporter = nodemailer.createTransport({
-  service:'gmail',  port: 587,
-      secure: false,
-      auth: {
-        user: 'someshnautiyal2122@gmail.com',
-        pass: 'dehradun009'
-      },
-       tls:{
-        rejectUnauthorized:false
-      }
-    });
-  
-    var mailOptions = {
-      from: 'someshnautiyal2122@gmail.com',
-      to: email,
-      subject: 'Sending Email to test Node.js nodemailer',
-      text: 'That was easy to test!'
-    };
-  
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent');
-      }
-    });
-  */
-    passport.authenticate('local', {
+var startTime = Date.now();
+router.post('/login', passport.authenticate('local', {
         successRedirect: '/dashboard',
-        failureRedirect: '/login',
+        failureRedirect: '/login'
         // failureFlash:true
-    })(req, res, next);
+    })
+)
+console.log('loginroute ' + Date.now()-startTime)
 
-})
+
 
 
 

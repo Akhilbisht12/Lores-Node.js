@@ -74,4 +74,8 @@ router.post('/team/join', function(req, res) {
     })
 })
 
+router.get('/battle', function(req,res){
+    res.render('battle');
+})
+
 module.exports = router;
